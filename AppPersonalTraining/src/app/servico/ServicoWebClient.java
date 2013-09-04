@@ -17,7 +17,7 @@ public class ServicoWebClient {
 
     private WebResource webResource;
     private Client client;
-    private static final String URL = "";
+    private static final String URL = "http://10.0.0.103/TesteRestful/servico";
 
     public ServicoWebClient() {
         com.sun.jersey.api.client.config.ClientConfig config = new DefaultClientConfig();

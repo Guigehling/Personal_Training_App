@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:text="Enviar"
         android:id="@+id/btEnviar"
-        android:onClick="onClickBtSalvar"
+        android:onClick="onClickBtEnviar"
     />
 </LinearLayout>
 
