@@ -11,12 +11,13 @@
     <EditText
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/txtEnviado" />
+        android:id="@+id/txtEnviar" />
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Salvar"
+        android:text="Enviar"
         android:id="@+id/btEnviar"
-        android:onClick="onClickBtEnviar" />
+        android:onClick="onClickBtSalvar"
+    />
 </LinearLayout>
 
