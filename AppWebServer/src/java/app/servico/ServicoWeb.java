@@ -18,6 +18,7 @@ import javax.ws.rs.core.MediaType;
 @Path(value = "/servicoweb")
 public class ServicoWeb {
 
+    // http://localhost:8080/TesteRestful/servico/servicoweb
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String testeJSON(){
