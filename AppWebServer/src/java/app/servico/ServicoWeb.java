@@ -22,7 +22,7 @@ import javax.ws.rs.core.MediaType;
 @Path(value = "/servicoweb")
 public class ServicoWeb {
 
-    // http://localhost:8080/TesteRestful/servico/servicoweb
+    //invocar http://localhost:8080/AppWebServer/servico/servicoweb
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String testeGetText() {
