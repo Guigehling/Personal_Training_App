@@ -22,7 +22,7 @@ import java.util.List;
  */
 public class ServicoWebClient {
 
-    private static final String URL = "http://10.0.0.103/TesteRestful/servico";
+    private static final String URL = "http://10.0.0.102:8080/AppWebServer/servico/servicoweb";
 
     public EntidadeAuxJASON testPostJsonRetText(List<Entidade> entidades) throws ServicoException {
         EntidadeAuxJASON aux = new EntidadeAuxJASON();
