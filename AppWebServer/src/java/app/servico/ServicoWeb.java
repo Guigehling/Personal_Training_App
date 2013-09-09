@@ -5,6 +5,7 @@
 package app.servico;
 
 import app.bean.Entidade;
+import app.bean.LatLong;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,5 +44,19 @@ public class ServicoWeb {
             Logger.getLogger(ServicoWeb.class.getName()).log(Level.SEVERE, resp);
         }
         return lista;
+    }
+
+    @POST
+    @Path(value = "retjsondist")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public LatLong postLatLong(LatLong latlong) {
+        StringBuilder sb = new StringBuilder("Registros Recebidos ------- \n\n");
+        latlong.setDistancia("12345");
+        //String resp = String.format("LatLong [%s]", latlong.getLatitude_inicial());
+        //sb.append(resp);
+        //sb.append("\n");
+        //Logger.getLogger(ServicoWeb.class.getName()).log(Level.SEVERE, resp);
+        return latlong;
     }
 }
