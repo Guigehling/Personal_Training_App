@@ -25,6 +25,12 @@ public class ServicoWebClient {
 
     private static final String URL = "http://10.0.0.102:8080/AppWebServer/servico/servicoweb";
 
+    /**
+     *
+     * @param entidades
+     * @return
+     * @throws ServicoException
+     */
     public EntidadeAuxJASON testPostJsonRetText(List<Entidade> entidades) throws ServicoException {
         EntidadeAuxJASON aux = new EntidadeAuxJASON();
         aux.setEntidade(entidades);
@@ -67,10 +73,18 @@ public class ServicoWebClient {
         }
     }
 
+    /**
+     * Este metodo é o responsavel por solicitar a conexao com o web server e
+     * montar o arquivo a ser enviado.
+     *
+     * @param latlong
+     * @return
+     * @throws ServicoException
+     */
     public LatLong postJsonRetDistancia(LatLong latlong) throws ServicoException {
         Gson gson = new GsonBuilder().create();
         String json = gson.toJson(latlong);
-        String resp=new String(this.makeRequestPost(json.getBytes(), "/retjsondist"));
+        String resp = new String(this.makeRequestPost(json.getBytes(), "/retjsondist"));
         return gson.fromJson(resp, LatLong.class);
     }
 }
