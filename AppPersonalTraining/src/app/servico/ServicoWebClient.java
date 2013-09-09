@@ -7,6 +7,7 @@ package app.servico;
 import app.auxiliares.EntidadeAuxJASON;
 import app.auxiliares.ServicoException;
 import app.bean.Entidade;
+import app.bean.LatLong;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.io.ByteArrayOutputStream;
@@ -64,5 +65,12 @@ public class ServicoWebClient {
         } catch (Exception ex) {
             throw new ServicoException("Falha na conexão http", ex);
         }
+    }
+
+    public LatLong postJsonRetDistancia(LatLong latlong) throws ServicoException {
+        Gson gson = new GsonBuilder().create();
+        String json = gson.toJson(latlong);
+        String resp=new String(this.makeRequestPost(json.getBytes(), "/retjsondist"));
+        return gson.fromJson(resp, LatLong.class);
     }
 }
