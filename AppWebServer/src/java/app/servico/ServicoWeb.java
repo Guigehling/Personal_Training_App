@@ -6,6 +6,12 @@ package app.servico;
 
 import app.bean.Entidade;
 import app.bean.LatLong;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,6 +21,9 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.w3c.dom.Document;
 
 /**
  *
@@ -52,11 +61,69 @@ public class ServicoWeb {
     @Produces(MediaType.APPLICATION_JSON)
     public LatLong postLatLong(LatLong latlong) {
         StringBuilder sb = new StringBuilder("Registros Recebidos ------- \n\n");
+        conexaoGoogle();
+        contGoogle();
         latlong.setDistancia("12345");
         //String resp = String.format("LatLong [%s]", latlong.getLatitude_inicial());
         //sb.append(resp);
         //sb.append("\n");
         //Logger.getLogger(ServicoWeb.class.getName()).log(Level.SEVERE, resp);
         return latlong;
+    }
+
+   
+
+    public String contGoogle() {
+        String distancia = "";
+        String urlString = "http://maps.googleapis.com/maps/api/directions/json?sensor=false&origin=-31.37392-51.997007&destination=-31.375294-51.955765&sensor=false";
+        //http://maps.googleapis.com/maps/api/directions/json?sensor=false&origin=-31.37392-51.997007&destination=-31.375294-51.955765&sensor=false
+        System.out.println(urlString);
+
+        try {
+
+
+
+            URL urlGoogleDirService = new URL(urlString);
+
+            HttpURLConnection urlGoogleDirCon = (HttpURLConnection) urlGoogleDirService.openConnection();
+
+            urlGoogleDirCon.setAllowUserInteraction(false);
+            urlGoogleDirCon.setDoInput(true);
+            urlGoogleDirCon.setDoOutput(false);
+            urlGoogleDirCon.setUseCaches(true);
+            urlGoogleDirCon.setRequestMethod("GET");
+            urlGoogleDirCon.connect();
+
+            DocumentBuilderFactory factoryDir = DocumentBuilderFactory.newInstance();
+            DocumentBuilder parserDirInfo = factoryDir.newDocumentBuilder();
+            Document docDir = parserDirInfo.parse(urlGoogleDirCon.getInputStream());
+
+            urlGoogleDirCon.disconnect();
+            distancia = docDir.toString();
+            return distancia;
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
+    }
+    
+     private String conexaoGoogle() {
+        try {
+            URL url = new URL("http://br.yahoo.com/");
+            HttpURLConnection urlconnection = (HttpURLConnection) url.openConnection();
+            BufferedReader in = new BufferedReader(new InputStreamReader(urlconnection.getInputStream()));
+            String line = null;
+            while ((line = in.readLine()) != null) {
+                System.out.println(line);
+            }
+            in.close();
+            urlconnection.disconnect();
+        } catch (MalformedURLException ex) {
+            System.out.println("Erro ao criar URL. Formato inválido.");
+        } catch (IOException ex) {
+            System.out.println("Erro ao acessar URL.");
+        }
+
+        return null;
     }
 }
