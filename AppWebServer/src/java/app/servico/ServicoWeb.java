@@ -6,8 +6,6 @@ package app.servico;
 
 import app.bean.Entidade;
 import app.bean.LatLong;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.io.BufferedReader;
@@ -33,7 +31,6 @@ import javax.xml.xpath.XPathFactory;
 import net.sf.json.JSONObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 
 /**
  *
@@ -71,9 +68,9 @@ public class ServicoWeb {
     @Produces(MediaType.APPLICATION_JSON)
     public LatLong postLatLong(LatLong latlong) throws IOException {
         StringBuilder sb = new StringBuilder("Registros Recebidos ------- \n\n");
-        contGoogle();
+        //contGoogle();
         //ConexaoJSon();
-        latlong.setDistancia(contGoogle());
+        latlong.setDistancia(contGoogle(latlong));
         //        conexaoGoogle();
         //String resp = String.format("LatLong [%s]", latlong.getLatitude_inicial());
         //sb.append(resp);
@@ -83,9 +80,9 @@ public class ServicoWeb {
     }
 
     //Faz a conexão com o Google
-    public String contGoogle() {
+    public String contGoogle(LatLong latLong) {
         String distancia = "";
-        String urlString = "http://maps.googleapis.com/maps/api/directions/xml?origin=-31.367333,-51.982088&destination=-31.367276,-51.981925&sensor=false";
+        String urlString = "http://maps.googleapis.com/maps/api/directions/xml?origin="+ latLong.getLatitude_inicial() +","+latLong.getLongitude_inicial()+"&destination="+latLong.getLatitude_final()+","+latLong.getLongitude_final()+"&sensor=false";
         System.out.println(urlString);
 
         try {
