@@ -5,12 +5,17 @@ import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.location.LocationProvider;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 import app.auxiliares.ServicoException;
 import app.bean.LatLong;
 import app.servico.ServicoWebClient;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -19,6 +24,7 @@ import app.servico.ServicoWebClient;
 public class PersonalTraining extends Activity {
 
     LatLong latLong = new LatLong();
+    ServicoWebClient servico = new ServicoWebClient();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,7 +35,6 @@ public class PersonalTraining extends Activity {
 
     public void onClickBtEnviar(View v) throws InterruptedException, ServicoException {
         latLong.setId(1L);
-        ServicoWebClient servico = new ServicoWebClient();
         latLong = servico.postJsonRetDistancia(latLong);
         EditText txtEnviar = (EditText) findViewById(R.id.txtEnviar);
         txtEnviar.setText(latLong.getDistancia());
@@ -44,28 +49,43 @@ public class PersonalTraining extends Activity {
                 latLong.setLongitude_inicial(String.format("[%9.6f]", location.getLongitude()));
                 latLong.setLatitude_final(String.format("[%9.6f]", location.getLatitude()));
                 latLong.setLongitude_final(String.format("[%9.6f]", location.getLongitude()));
+                latLong.setId(1L);
+                try {
+                    latLong = servico.postJsonRetDistancia(latLong);
+                } catch (ServicoException ex) {
+                    Logger.getLogger(PersonalTraining.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                EditText txtEnviar = (EditText) findViewById(R.id.txtEnviar);
+                txtEnviar.setText(latLong.getDistancia());
             }
 
-            public String getLatitude(Location location) {
-                String latitude = String.format("[%9.6f]", location.getLatitude());
-                return latitude;
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+                String msg = "onStatusChanged " + provider;
+                switch (status) {
+                    case LocationProvider.AVAILABLE:
+                        msg += " GPS novamente disponível";
+                        break;
+                    case LocationProvider.OUT_OF_SERVICE:
+                        msg += " GPS sem serviço";
+                        break;
+                    case LocationProvider.TEMPORARILY_UNAVAILABLE:
+                        msg += " GPS temporariamente indisponível";
+                        break;
+                }
+                Log.w("PersonalTraining", msg);
+                Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
             }
 
-            public String getLongitude(Location location) {
-                String longitude = String.format("[%9.6f]", location.getLongitude());
-                return longitude;
+            public void onProviderEnabled(String provider) {
+                String msg = "onProviderEnabled " + provider;
+                Log.w("PersonalTraining", msg);
+                Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
             }
 
-            public void onStatusChanged(String string, int i, Bundle bundle) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            public void onProviderEnabled(String string) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            public void onProviderDisabled(String string) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            public void onProviderDisabled(String provider) {
+                String msg = "onProviderDisabled " + provider;
+                Log.w("PersonalTraining", msg);
+                Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
             }
         };
         locationManager.requestLocationUpdates(locationManager.GPS_PROVIDER, 3000, 0, locationListener);
