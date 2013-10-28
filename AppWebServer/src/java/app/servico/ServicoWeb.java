@@ -82,7 +82,13 @@ public class ServicoWeb {
     //Faz a conexão com o Google
     public String contGoogle(LatLong latLong) {
         String distancia = "";
-        String urlString = "http://maps.googleapis.com/maps/api/directions/xml?origin="+ latLong.getLatitude_inicial() +","+latLong.getLongitude_inicial()+"&destination="+latLong.getLatitude_final()+","+latLong.getLongitude_final()+"&sensor=false";
+        latLong.setLatitude_inicial("-31.373022");
+        latLong.setLongitude_inicial("-51.997503");
+        latLong.setLatitude_final("-31.373095");
+        latLong.setLongitude_final("-51.997466");
+        //-31.373022,-51.997503
+        //-31.373095,-51.997466
+        String urlString = "http://maps.googleapis.com/maps/api/directions/xml?origin=" + latLong.getLatitude_inicial() + "," + latLong.getLongitude_inicial() + "&destination=" + latLong.getLatitude_final() + "," + latLong.getLongitude_final() + "&sensor=false";
         System.out.println(urlString);
 
         try {
@@ -117,7 +123,7 @@ public class ServicoWeb {
                 System.out.println(nodeList.item(i).getFirstChild().getNodeValue());
                 distancia = nodeList.item(i).getFirstChild().getNodeValue();
             }
-            
+
             urlGoogleDirCon.disconnect();
             return distancia;
         } catch (Exception e) {
