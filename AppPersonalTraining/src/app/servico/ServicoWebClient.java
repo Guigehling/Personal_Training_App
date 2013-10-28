@@ -23,8 +23,8 @@ import java.util.List;
  */
 public class ServicoWebClient {
 
-//    private static final String URL = "http://10.0.0.101:8080/AppWebServer/servico/servicoweb";
-    private static final String URL = "http://10.13.1.205:8080/AppWebServer/servico/servicoweb";
+    private static final String URL = "http://10.0.0.101:8080/AppWebServer/servico/servicoweb";
+    //   private static final String URL = "http://10.13.1.205:8080/AppWebServer/servico/servicoweb";
 
     /**
      *
