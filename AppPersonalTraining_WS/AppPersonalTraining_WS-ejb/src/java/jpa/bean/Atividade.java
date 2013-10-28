@@ -7,13 +7,17 @@ package jpa.bean;
 import java.io.Serializable;
 import java.sql.Time;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -24,30 +28,35 @@ import javax.persistence.TemporalType;
  * @author Guilherme Gehling
  */
 @Entity
-@Table(name = "posicao")
+@Table(name = "atividade")
 @NamedQueries({
-    @NamedQuery(name = "Posicao.achaTODOS", query = "SELECT o FROM Posicao o ORDER BY o.id")
+    @NamedQuery(name = "Atividade.achaTODOS", query = "SELECT o FROM Atividade o ORDER BY o.id")
 })
-@SequenceGenerator(name = "seqPosicao", sequenceName = "SEQPOSICAO", allocationSize = 1)
-public class Posicao implements Serializable {
+@SequenceGenerator(name = "seqAtividade", sequenceName = "SEQATIVIDADE", allocationSize = 1)
+public class Atividade implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "seqPosicao")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "seqAtividade")
     private int id;
-    private String latitude, longitude;
-    private double distancia;
     @Temporal(TemporalType.DATE)
     private Date dia;
     private Time hora;
+    @ManyToOne
+    @JoinColumn(name = "id_usuario", referencedColumnName = "id")
+    private Usuario usuario;
+    @OneToMany
+    @JoinTable(name = "atividade_posicaos", joinColumns = {
+        @JoinColumn(name = "id_atividade")}, inverseJoinColumns = {
+        @JoinColumn(name = "id_posicaos")})
+    private List<Posicao> posicaos;
 
-    public Posicao() {
+    public Atividade() {
     }
 
-    public Posicao(int id, String latitude, String longitude, double distancia, Date dia, Time hora) {
+    public Atividade(int id, Usuario usuario, List<Posicao> posicaos, Date dia, Time hora) {
         this.id = id;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.distancia = distancia;
+        this.usuario = usuario;
+        this.posicaos = posicaos;
         this.dia = dia;
         this.hora = hora;
     }
@@ -60,35 +69,27 @@ public class Posicao implements Serializable {
         this.id = id;
     }
 
-    public String getLatitude() {
-        return latitude;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setLatitude(String latitude) {
-        this.latitude = latitude;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
-    public String getLongitude() {
-        return longitude;
+    public List<Posicao> getPosicao() {
+        return posicaos;
     }
 
-    public void setLongitude(String longitude) {
-        this.longitude = longitude;
+    public void setPosicao(List<Posicao> posicaos) {
+        this.posicaos = posicaos;
     }
 
-    public double getDistancia() {
-        return distancia;
-    }
-
-    public void setDistancia(double distancia) {
-        this.distancia = distancia;
-    }
-
-    public Date getData() {
+    public Date getDia() {
         return dia;
     }
 
-    public void setData(Date dia) {
+    public void setDia(Date dia) {
         this.dia = dia;
     }
 
@@ -102,8 +103,8 @@ public class Posicao implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 97 * hash + this.id;
+        int hash = 3;
+        hash = 41 * hash + this.id;
         return hash;
     }
 
@@ -115,15 +116,10 @@ public class Posicao implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Posicao other = (Posicao) obj;
+        final Atividade other = (Atividade) obj;
         if (this.id != other.id) {
             return false;
         }
         return true;
-    }
-
-    @Override
-    public String toString() {
-        return "Posicao{" + "latitude=" + latitude + ", longitude=" + longitude + ", distancia=" + distancia + '}';
     }
 }
