@@ -25,7 +25,7 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "movimento")
 @NamedQueries({
-    @NamedQuery(name = "Movimento.achaTODOS", query = "SELECT o FROM Posicao WHERE o ORDER BY o.id")
+    @NamedQuery(name = "Movimento.achaTODOS", query = "SELECT o FROM Movimento o ORDER BY o.id")
 })
 @SequenceGenerator(name = "seqMovimento", sequenceName = "SEQMOVIMENTO", allocationSize = 1)
 public class Movimento implements Serializable {

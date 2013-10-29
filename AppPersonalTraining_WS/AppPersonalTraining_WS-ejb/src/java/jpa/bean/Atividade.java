@@ -45,18 +45,18 @@ public class Atividade implements Serializable {
     @JoinColumn(name = "id_usuario", referencedColumnName = "id")
     private Usuario usuario;
     @OneToMany
-    @JoinTable(name = "atividade_posicaos", joinColumns = {
+    @JoinTable(name = "atividade_movimentos", joinColumns = {
         @JoinColumn(name = "id_atividade")}, inverseJoinColumns = {
-        @JoinColumn(name = "id_posicaos")})
-    private List<Posicao> posicaos;
+        @JoinColumn(name = "id_movimentos")})
+    private List<Movimento> movimentos;
 
     public Atividade() {
     }
 
-    public Atividade(int id, Usuario usuario, List<Posicao> posicaos, Date dia, Time hora) {
+    public Atividade(int id, Usuario usuario, List<Movimento> movimentos, Date dia, Time hora) {
         this.id = id;
         this.usuario = usuario;
-        this.posicaos = posicaos;
+        this.movimentos = movimentos;
         this.dia = dia;
         this.hora = hora;
     }
@@ -77,12 +77,12 @@ public class Atividade implements Serializable {
         this.usuario = usuario;
     }
 
-    public List<Posicao> getPosicao() {
-        return posicaos;
+    public List<Movimento> getMovimento() {
+        return movimentos;
     }
 
-    public void setPosicao(List<Posicao> posicaos) {
-        this.posicaos = posicaos;
+    public void setMovimento(List<Movimento> movimentos) {
+        this.movimentos = movimentos;
     }
 
     public Date getDia() {
