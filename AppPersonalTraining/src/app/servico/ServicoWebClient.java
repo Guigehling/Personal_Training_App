@@ -7,7 +7,7 @@ package app.servico;
 import app.auxiliares.EntidadeAuxJASON;
 import app.auxiliares.ServicoException;
 import app.bean.Entidade;
-import app.bean.LatLong;
+import app.bean.Movimento;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.io.ByteArrayOutputStream;
@@ -23,8 +23,8 @@ import java.util.List;
  */
 public class ServicoWebClient {
 
-    private static final String URL = "http://10.0.0.101:8080/AppWebServer/servico/servicoweb";
-    //   private static final String URL = "http://10.13.1.205:8080/AppWebServer/servico/servicoweb";
+   //private static final String URL = "http://10.0.0.101:8080/AppWebServer/servico/servicoweb";
+       private static final String URL = "http://10.13.2.125:8080/AppWebServer/servico/servicoweb";
 
     /**
      *
@@ -82,10 +82,10 @@ public class ServicoWebClient {
      * @return
      * @throws ServicoException
      */
-    public LatLong postJsonRetDistancia(LatLong latlong) throws ServicoException {
+    public Movimento postJsonRetDistancia(Movimento movimento) throws ServicoException {
         Gson gson = new GsonBuilder().create();
-        String json = gson.toJson(latlong);
+        String json = gson.toJson(movimento);
         String resp = new String(this.makeRequestPost(json.getBytes(), "/retjsondist"));
-        return gson.fromJson(resp, LatLong.class);
+        return gson.fromJson(resp, Movimento.class);
     }
 }

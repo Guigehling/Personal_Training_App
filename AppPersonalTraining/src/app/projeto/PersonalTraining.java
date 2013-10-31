@@ -12,7 +12,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 import app.auxiliares.ServicoException;
-import app.bean.LatLong;
+import app.bean.Movimento;
 import app.servico.ServicoWebClient;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,7 +23,7 @@ import java.util.logging.Logger;
  */
 public class PersonalTraining extends Activity {
 
-    LatLong latLong = new LatLong();
+    Movimento movimento = new Movimento();
     ServicoWebClient servico = new ServicoWebClient();
 
     @Override
@@ -34,10 +34,10 @@ public class PersonalTraining extends Activity {
     }
 
     public void onClickBtEnviar(View v) throws InterruptedException, ServicoException {
-        latLong.setId(1L);
-        latLong = servico.postJsonRetDistancia(latLong);
+        movimento.setId(1);
+        movimento = servico.postJsonRetDistancia(movimento);
         EditText txtEnviar = (EditText) findViewById(R.id.txtEnviar);
-        txtEnviar.setText(latLong.getDistancia());
+        txtEnviar.setText((int) movimento.getDistancia());
     }
 
     public void ativaGPS() {
@@ -45,18 +45,18 @@ public class PersonalTraining extends Activity {
         LocationListener locationListener = new LocationListener() {
             public void onLocationChanged(Location location) {
                 String msg = String.format("Latitude: [%9.6f] Longitude: [%9.6f]", location.getLatitude(), location.getLongitude());
-                latLong.setLatitude_inicial(String.format("[%9.6f]", location.getLatitude()));
-                latLong.setLongitude_inicial(String.format("[%9.6f]", location.getLongitude()));
-                latLong.setLatitude_final(String.format("[%9.6f]", location.getLatitude()));
-                latLong.setLongitude_final(String.format("[%9.6f]", location.getLongitude()));
-                latLong.setId(1L);
+                movimento.setId(1);
+                movimento.setLatitudePartida(String.format("[%9.6f]", location.getLatitude()));
+                movimento.setLongitudePartida(String.format("[%9.6f]", location.getLongitude()));
+                movimento.setLatitudeChegada(String.format("[%9.6f]", location.getLatitude()));
+                movimento.setLongitudeChegada(String.format("[%9.6f]", location.getLongitude()));
                 try {
-                    latLong = servico.postJsonRetDistancia(latLong);
+                    movimento = servico.postJsonRetDistancia(movimento);
                 } catch (ServicoException ex) {
                     Logger.getLogger(PersonalTraining.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 EditText txtEnviar = (EditText) findViewById(R.id.txtEnviar);
-                txtEnviar.setText(latLong.getDistancia());
+                txtEnviar.setText((int) movimento.getDistancia());
             }
 
             public void onStatusChanged(String provider, int status, Bundle extras) {
