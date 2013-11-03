@@ -4,6 +4,8 @@
  */
 package app.bean;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.sql.Time;
 import java.util.Date;
@@ -14,10 +16,32 @@ import java.util.Date;
  */
 public class Movimento implements Serializable {
 
+    @Expose
+    @SerializedName("id")
     private int id;
-    private String latitudePartida, latitudeChegada, longitudePartida, longitudeChegada;
-    private double distancia, velocidade;
+    @Expose
+    @SerializedName("latitudePartida")
+    private String latitudePartida;
+    @Expose
+    @SerializedName("latitudeChegada")
+    private String latitudeChegada;
+    @Expose
+    @SerializedName("longitudePartida")
+    private String longitudePartida;
+    @Expose
+    @SerializedName("longitudeChegada")
+    private String longitudeChegada;
+    @Expose
+    @SerializedName("distancia")
+    private double distancia;
+    @Expose
+    @SerializedName("velocidade")
+    private Double velocidade;
+    @Expose
+    @SerializedName("dia")
     private Date dia;
+    @Expose
+    @SerializedName("hora")
     private Time hora;
 
     public Movimento() {
@@ -131,6 +155,6 @@ public class Movimento implements Serializable {
 
     @Override
     public String toString() {
-        return "Movimento{" + "distancia=" + distancia + ", velocidade=" + velocidade + ", dia=" + dia + ", hora=" + hora + '}';
+        return "Movimento{" + "id=" + id + ", latitudePartida=" + latitudePartida + ", latitudeChegada=" + latitudeChegada + ", longitudePartida=" + longitudePartida + ", longitudeChegada=" + longitudeChegada + ", distancia=" + distancia + ", velocidade=" + velocidade + ", dia=" + dia + ", hora=" + hora + '}';
     }
 }

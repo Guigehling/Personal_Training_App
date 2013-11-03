@@ -14,6 +14,7 @@ import android.widget.Toast;
 import app.auxiliares.ServicoException;
 import app.bean.Movimento;
 import app.servico.ServicoWebClient;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -45,18 +46,22 @@ public class PersonalTraining extends Activity {
         LocationListener locationListener = new LocationListener() {
             public void onLocationChanged(Location location) {
                 String msg = String.format("Latitude: [%9.6f] Longitude: [%9.6f]", location.getLatitude(), location.getLongitude());
+                Log.w("PersonalTraining", msg);
+                Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
                 movimento.setId(1);
-                movimento.setLatitudePartida(String.format("[%9.6f]", location.getLatitude()));
-                movimento.setLongitudePartida(String.format("[%9.6f]", location.getLongitude()));
-                movimento.setLatitudeChegada(String.format("[%9.6f]", location.getLatitude()));
-                movimento.setLongitudeChegada(String.format("[%9.6f]", location.getLongitude()));
+                movimento.setLatitudePartida(String.format("%9.6f", location.getLatitude()));
+                movimento.setLongitudePartida(String.format("%9.6f", location.getLongitude()));
+                movimento.setLatitudeChegada(String.format("%9.6f", location.getLatitude()));
+                movimento.setLongitudeChegada(String.format("%9.6f", location.getLongitude()));
+                movimento.setDia(new Date());
                 try {
                     movimento = servico.postJsonRetDistancia(movimento);
                 } catch (ServicoException ex) {
                     Logger.getLogger(PersonalTraining.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 EditText txtEnviar = (EditText) findViewById(R.id.txtEnviar);
-                txtEnviar.setText((int) movimento.getDistancia());
+                String distancia = String.valueOf(movimento.getDistancia());
+                txtEnviar.setText(distancia);
             }
 
             public void onStatusChanged(String provider, int status, Bundle extras) {
@@ -88,6 +93,6 @@ public class PersonalTraining extends Activity {
                 Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
             }
         };
-        locationManager.requestLocationUpdates(locationManager.GPS_PROVIDER, 3000, 0, locationListener);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 60000, 0, locationListener);
     }
 }
