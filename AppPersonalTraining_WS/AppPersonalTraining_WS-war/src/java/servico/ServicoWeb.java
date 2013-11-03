@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.io.IOException;
 import java.net.URL;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -30,6 +31,12 @@ import org.w3c.dom.NodeList;
  */
 @Path(value = "/servicoweb")
 public class ServicoWeb {
+
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    public String testeGetText() {
+        return "teste de endereço";
+    }
 
     @POST
     @Path(value = "retjsondist")
@@ -51,10 +58,11 @@ public class ServicoWeb {
     public double obtemDistancia(Movimento movimento) {
         String distanciaXML = "";
         double distancia = 0;
-        movimento.setLatitudePartida("-31.373022");
-        movimento.setLongitudePartida("-51.997503");
-        movimento.setLatitudeChegada("-31.373095");
-        movimento.setLongitudeChegada("-51.997466");
+        
+//        movimento.setLatitudePartida("-31.373022");
+//        movimento.setLongitudePartida("-51.997503");
+//        movimento.setLatitudeChegada("-31.373095");
+//        movimento.setLongitudeChegada("-51.997466");
         //-31.373022,-51.997503
         //-31.373095,-51.997466
         String urlString = "http://maps.googleapis.com/maps/api/directions/xml?origin=" + movimento.getLatitudePartida() + "," + movimento.getLongitudePartida() + "&destination=" + movimento.getLatitudeChegada() + "," + movimento.getLongitudeChegada() + "&sensor=false";
