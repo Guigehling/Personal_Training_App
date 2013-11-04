@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 import app.auxiliares.ServicoException;
 import app.bean.Movimento;
+import app.bean.Posicao;
 import app.servico.ServicoWebClient;
 import java.util.Date;
 import java.util.logging.Level;
@@ -24,7 +25,8 @@ import java.util.logging.Logger;
  */
 public class PersonalTraining extends Activity {
 
-    Movimento movimento = new Movimento();
+    Posicao posicaoAtual = new Posicao();
+    Movimento movimentoAtual = new Movimento();
     ServicoWebClient servico = new ServicoWebClient();
 
     @Override
@@ -35,10 +37,10 @@ public class PersonalTraining extends Activity {
     }
 
     public void onClickBtEnviar(View v) throws InterruptedException, ServicoException {
-        movimento.setId(1);
-        movimento = servico.postJsonRetDistancia(movimento);
+        posicaoAtual.setId(1);
+        movimentoAtual = servico.postJsonRetDistancia(posicaoAtual);
         EditText txtEnviar = (EditText) findViewById(R.id.txtEnviar);
-        txtEnviar.setText((int) movimento.getDistancia());
+        txtEnviar.setText((int) movimentoAtual.getDistancia());
     }
 
     public void ativaGPS() {
@@ -48,19 +50,19 @@ public class PersonalTraining extends Activity {
                 String msg = String.format("Latitude: [%9.6f] Longitude: [%9.6f]", location.getLatitude(), location.getLongitude());
                 Log.w("PersonalTraining", msg);
                 Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
-                movimento.setId(1);
-                movimento.setLatitudePartida(String.format("%9.6f", location.getLatitude()));
-                movimento.setLongitudePartida(String.format("%9.6f", location.getLongitude()));
-                movimento.setLatitudeChegada(String.format("%9.6f", location.getLatitude()));
-                movimento.setLongitudeChegada(String.format("%9.6f", location.getLongitude()));
-                movimento.setDia(new Date());
+                posicaoAtual.setId(1);
+                posicaoAtual.setLatitude(String.format("%9.6f", location.getLatitude()));
+                posicaoAtual.setLongitude(String.format("%9.6f", location.getLongitude()));
+//                posicaoAtual.setLatitudeChegada(String.format("%9.6f", location.getLatitude()));
+//                posicaoAtual.setLongitudeChegada(String.format("%9.6f", location.getLongitude()));
+                posicaoAtual.setDia(new Date());
                 try {
-                    movimento = servico.postJsonRetDistancia(movimento);
+                    movimentoAtual = servico.postJsonRetDistancia(posicaoAtual);
                 } catch (ServicoException ex) {
                     Logger.getLogger(PersonalTraining.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 EditText txtEnviar = (EditText) findViewById(R.id.txtEnviar);
-                String distancia = String.valueOf(movimento.getDistancia());
+                String distancia = String.valueOf(movimentoAtual.getDistancia());
                 txtEnviar.setText(distancia);
             }
 

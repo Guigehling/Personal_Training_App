@@ -20,23 +20,17 @@ public class Movimento implements Serializable {
     @SerializedName("id")
     private int id;
     @Expose
-    @SerializedName("latitudePartida")
-    private String latitudePartida;
+    @SerializedName("posicaoInicial")
+    private Posicao posicaoInicial;
     @Expose
-    @SerializedName("latitudeChegada")
-    private String latitudeChegada;
+    @SerializedName("posicaoFinal")
+    private Posicao posicaoFinal;
     @Expose
-    @SerializedName("longitudePartida")
-    private String longitudePartida;
-    @Expose
-    @SerializedName("longitudeChegada")
-    private String longitudeChegada;
-    @Expose
-    @SerializedName("distancia")
+    @SerializedName("posicaoFinal")
     private double distancia;
     @Expose
     @SerializedName("velocidade")
-    private Double velocidade;
+    private double velocidade;
     @Expose
     @SerializedName("dia")
     private Date dia;
@@ -47,12 +41,10 @@ public class Movimento implements Serializable {
     public Movimento() {
     }
 
-    public Movimento(int id, String latitudePartida, String latitudeChegada, String longitudePartida, String longitudeChegada, double distancia, double velocidade, Date dia, Time hora) {
+    public Movimento(int id, Posicao posicaoInicial, Posicao posicaoFinal, double distancia, double velocidade, Date dia, Time hora) {
         this.id = id;
-        this.latitudePartida = latitudePartida;
-        this.latitudeChegada = latitudeChegada;
-        this.longitudePartida = longitudePartida;
-        this.longitudeChegada = longitudeChegada;
+        this.posicaoInicial = posicaoInicial;
+        this.posicaoFinal = posicaoFinal;
         this.distancia = distancia;
         this.velocidade = velocidade;
         this.dia = dia;
@@ -67,36 +59,20 @@ public class Movimento implements Serializable {
         this.id = id;
     }
 
-    public String getLatitudePartida() {
-        return latitudePartida;
+    public Posicao getPosicaoInicial() {
+        return posicaoInicial;
     }
 
-    public void setLatitudePartida(String latitudePartida) {
-        this.latitudePartida = latitudePartida;
+    public void setPosicaoInicial(Posicao posicaoInicial) {
+        this.posicaoInicial = posicaoInicial;
     }
 
-    public String getLatitudeChegada() {
-        return latitudeChegada;
+    public Posicao getPosicaoFinal() {
+        return posicaoFinal;
     }
 
-    public void setLatitudeChegada(String latitudeChegada) {
-        this.latitudeChegada = latitudeChegada;
-    }
-
-    public String getLongitudePartida() {
-        return longitudePartida;
-    }
-
-    public void setLongitudePartida(String longitudePartida) {
-        this.longitudePartida = longitudePartida;
-    }
-
-    public String getLongitudeChegada() {
-        return longitudeChegada;
-    }
-
-    public void setLongitudeChegada(String longitudeChegada) {
-        this.longitudeChegada = longitudeChegada;
+    public void setPosicaoFinal(Posicao posicaoFinal) {
+        this.posicaoFinal = posicaoFinal;
     }
 
     public double getDistancia() {
@@ -134,7 +110,7 @@ public class Movimento implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 53 * hash + this.id;
+        hash = 19 * hash + this.id;
         return hash;
     }
 
@@ -155,6 +131,6 @@ public class Movimento implements Serializable {
 
     @Override
     public String toString() {
-        return "Movimento{" + "id=" + id + ", latitudePartida=" + latitudePartida + ", latitudeChegada=" + latitudeChegada + ", longitudePartida=" + longitudePartida + ", longitudeChegada=" + longitudeChegada + ", distancia=" + distancia + ", velocidade=" + velocidade + ", dia=" + dia + ", hora=" + hora + '}';
+        return "Movimento{" + "id=" + id + ", posicaoInicial=" + posicaoInicial + ", posicaoFinal=" + posicaoFinal + ", distancia=" + distancia + ", velocidade=" + velocidade + ", dia=" + dia + ", hora=" + hora + '}';
     }
 }

@@ -8,6 +8,7 @@ import app.auxiliares.EntidadeAuxJASON;
 import app.auxiliares.ServicoException;
 import app.bean.Entidade;
 import app.bean.Movimento;
+import app.bean.Posicao;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.io.ByteArrayOutputStream;
@@ -82,9 +83,9 @@ public class ServicoWebClient {
      * @return
      * @throws ServicoException
      */
-    public Movimento postJsonRetDistancia(Movimento movimento) throws ServicoException {
+    public Movimento postJsonRetDistancia(Posicao posicao) throws ServicoException {
         Gson gson = new GsonBuilder().create();
-        String json = gson.toJson(movimento);
+        String json = gson.toJson(posicao);
         String resp = new String(this.makeRequestPost(json.getBytes(), "/retjsondist"));
         return gson.fromJson(resp, Movimento.class);
     }
