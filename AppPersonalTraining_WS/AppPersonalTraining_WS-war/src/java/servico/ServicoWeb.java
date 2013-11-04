@@ -10,6 +10,11 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStreamReader;
 import java.io.IOException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -22,6 +27,8 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 import jpa.bean.Movimento;
+import jpa.bean.Posicao;
+import jpa.ejb.dao.PosicaoDAO;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
@@ -32,19 +39,34 @@ import org.w3c.dom.NodeList;
 @Path(value = "/servicoweb")
 public class ServicoWeb {
 
+    PosicaoDAO posicaoDAO = new PosicaoDAO();
+    Movimento novoMovimento = new Movimento();
+    Posicao ultimaPosicao = new Posicao();
+
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String testeGetText() {
-        return "teste de endereço";
+        return "teste de endereco";
     }
 
     @POST
     @Path(value = "retjsondist")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Movimento postMovimento(Movimento movimento) throws IOException {
-        movimento.setDistancia(obtemDistancia(movimento));
-        return movimento;
+    public Movimento postMovimento(Posicao posicao) throws IOException {
+        novoMovimento = null;
+        ultimaPosicao = null;
+        ultimaPosicao = posicaoDAO.achaUltimoAcesso();
+        if (ultimaPosicao == null) {
+            posicao.setUltimaPosicao(true);
+            posicaoDAO.create(posicao);
+            return novoMovimento;
+        } else {
+            novoMovimento.setPosicaoInicial(ultimaPosicao);
+            novoMovimento.setPosicaoFinal(posicao);
+            novoMovimento.setDistancia(obtemDistancia(novoMovimento));
+            return novoMovimento;
+        }
     }
 
     /**
@@ -58,14 +80,16 @@ public class ServicoWeb {
     public double obtemDistancia(Movimento movimento) {
         String distanciaXML = "";
         double distancia = 0;
-        
+
 //        movimento.setLatitudePartida("-31.373022");
 //        movimento.setLongitudePartida("-51.997503");
 //        movimento.setLatitudeChegada("-31.373095");
 //        movimento.setLongitudeChegada("-51.997466");
         //-31.373022,-51.997503
         //-31.373095,-51.997466
-        String urlString = "http://maps.googleapis.com/maps/api/directions/xml?origin=" + movimento.getLatitudePartida() + "," + movimento.getLongitudePartida() + "&destination=" + movimento.getLatitudeChegada() + "," + movimento.getLongitudeChegada() + "&sensor=false";
+
+        String urlString = "http://maps.googleapis.com/maps/api/directions/xml?origin=" + movimento.getPosicaoInicial().getLatitude() + "," + movimento.getPosicaoInicial().getLongitude() + ""
+                + "&destination=" + movimento.getPosicaoFinal().getLatitude() + "," + movimento.getPosicaoFinal().getLongitude() + "&sensor=false";
         System.out.println(urlString);
 
         try {
@@ -107,6 +131,26 @@ public class ServicoWeb {
         } catch (Exception e) {
             System.out.println(e);
             return distancia;
+        }
+    }
+
+    private PosicaoDAO lookupPosicaoDAOBean() {
+        try {
+            Context c = new InitialContext();
+            return (PosicaoDAO) c.lookup("java:global/AppPersonalTraining_WS/AppPersonalTraining_WS-war/PosicaoDAO!jpa.ejb.dao.PosicaoDAO");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
+
+    private PosicaoDAO lookupPosicaoDAOBean1() {
+        try {
+            Context c = new InitialContext();
+            return (PosicaoDAO) c.lookup("java:global/AppPersonalTraining_WS/AppPersonalTraining_WS-war/PosicaoDAO!jpa.ejb.dao.PosicaoDAO");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
         }
     }
 }

@@ -26,4 +26,6 @@ public interface PosicaoDAORemote {
     boolean valida(Posicao posicao);
 
     List<Posicao> listaTodos();
+
+    Posicao achaUltimoAcesso();
 }
