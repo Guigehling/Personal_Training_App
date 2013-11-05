@@ -14,11 +14,16 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Guilherme Gehling
  */
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 @Entity
 @Table(name = "usuario")
 @NamedQueries({
@@ -74,6 +79,17 @@ public class Usuario implements Serializable {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public boolean validaSenha(String senha) {
+        boolean ret = false;
+        try {
+            if (this.senha.equals(senha)) {
+                ret = true;
+            }
+        } catch (NullPointerException ex) {
+        }
+        return ret;
     }
 
     @Override

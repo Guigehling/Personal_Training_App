@@ -10,11 +10,8 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStreamReader;
 import java.io.IOException;
 import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
+import javax.ejb.EJB;
+import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -28,7 +25,9 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 import jpa.bean.Movimento;
 import jpa.bean.Posicao;
+import jpa.bean.Usuario;
 import jpa.ejb.dao.PosicaoDAO;
+import jpa.ejb.dao.UsuarioDAO;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
@@ -37,9 +36,12 @@ import org.w3c.dom.NodeList;
  * @author Guilherme Gehling
  */
 @Path(value = "/servicoweb")
+@RequestScoped
 public class ServicoWeb {
 
-    PosicaoDAO posicaoDAO = new PosicaoDAO();
+    @EJB
+    PosicaoDAO posicaoDAO;
+    UsuarioDAO usuarioDAO;
     Movimento novoMovimento = new Movimento();
     Posicao ultimaPosicao = new Posicao();
 
@@ -47,6 +49,16 @@ public class ServicoWeb {
     @Produces(MediaType.TEXT_PLAIN)
     public String testeGetText() {
         return "teste de endereco";
+    }
+
+    @POST
+    @Path(value = "retusuario")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Usuario postUsuario(Usuario usuario) throws IOException {
+        Usuario usuarioretorno;
+        usuarioretorno = usuarioDAO.achaUsuarioPorEmail(usuario.getEmail());
+        return usuarioretorno;
     }
 
     @POST
@@ -131,26 +143,6 @@ public class ServicoWeb {
         } catch (Exception e) {
             System.out.println(e);
             return distancia;
-        }
-    }
-
-    private PosicaoDAO lookupPosicaoDAOBean() {
-        try {
-            Context c = new InitialContext();
-            return (PosicaoDAO) c.lookup("java:global/AppPersonalTraining_WS/AppPersonalTraining_WS-war/PosicaoDAO!jpa.ejb.dao.PosicaoDAO");
-        } catch (NamingException ne) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
-            throw new RuntimeException(ne);
-        }
-    }
-
-    private PosicaoDAO lookupPosicaoDAOBean1() {
-        try {
-            Context c = new InitialContext();
-            return (PosicaoDAO) c.lookup("java:global/AppPersonalTraining_WS/AppPersonalTraining_WS-war/PosicaoDAO!jpa.ejb.dao.PosicaoDAO");
-        } catch (NamingException ne) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
-            throw new RuntimeException(ne);
         }
     }
 }
