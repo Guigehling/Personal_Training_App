@@ -1,3 +1,7 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package app.projeto;
 
 import android.app.Activity;
@@ -23,22 +27,25 @@ import java.util.logging.Logger;
  *
  * @author Guilherme Gehling
  */
-public class PersonalTraining extends Activity {
+public class TelaAtividade extends Activity {
 
     Posicao posicaoAtual = new Posicao();
     Movimento movimentoAtual = new Movimento();
     ServicoWebClient servico = new ServicoWebClient();
 
+    /**
+     * Called when the activity is first created.
+     */
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+    public void onCreate(Bundle icicle) {
+        super.onCreate(icicle);
+        setContentView(R.layout.telaatividade);
         ativaGPS();
     }
 
     public void onClickBtEnviar(View v) throws InterruptedException, ServicoException {
         posicaoAtual.setId(1);
-        movimentoAtual = servico.postJsonRetDistancia(posicaoAtual);
+        movimentoAtual = servico.retornaMovimento(posicaoAtual);
         EditText txtEnviar = (EditText) findViewById(R.id.txtEnviar);
         txtEnviar.setText((int) movimentoAtual.getDistancia());
     }
@@ -57,9 +64,9 @@ public class PersonalTraining extends Activity {
 //                posicaoAtual.setLongitudeChegada(String.format("%9.6f", location.getLongitude()));
                 posicaoAtual.setDia(new Date());
                 try {
-                    movimentoAtual = servico.postJsonRetDistancia(posicaoAtual);
+                    movimentoAtual = servico.retornaMovimento(posicaoAtual);
                 } catch (ServicoException ex) {
-                    Logger.getLogger(PersonalTraining.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(TelaSplashScreen.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 EditText txtEnviar = (EditText) findViewById(R.id.txtEnviar);
                 String distancia = String.valueOf(movimentoAtual.getDistancia());

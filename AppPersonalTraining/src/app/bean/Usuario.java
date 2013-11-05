@@ -4,6 +4,8 @@
  */
 package app.bean;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 /**
@@ -12,8 +14,18 @@ import java.io.Serializable;
  */
 public class Usuario implements Serializable {
 
+    @Expose
+    @SerializedName("id")
     private int id;
-    private String nome, email, senha;
+    @Expose
+    @SerializedName("nome")
+    private String nome;
+    @Expose
+    @SerializedName("emial")
+    private String email;
+    @Expose
+    @SerializedName("senha")
+    private String senha;
 
     public Usuario() {
     }
