@@ -8,7 +8,10 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import jpa.bean.Atividade;
 import jpa.bean.Posicao;
+import jpa.bean.Usuario;
 
 /**
  *
@@ -50,13 +53,24 @@ public class PosicaoDAO implements PosicaoDAORemote {
     }
 
     @Override
-    public List<Posicao> listaTodos() {
+    public List<Posicao> achaTodos() {
         return (List<Posicao>) em.createNamedQuery("Posicao.achaTODOS").getResultList();
     }
 
     @Override
-    public Posicao achaUltimoAcesso() {
-        return (Posicao) em.createNamedQuery("Posicao.achaUltimaPosicao").getResultList();
+    public List<Posicao> achaPorAtividade(Atividade atividade) {
+        Query query = em.createNamedQuery("Posicao.achaPorAtividade");
+        query.setParameter("atividade", atividade.getId());
+        List<Posicao> posicaos = query.getResultList();
+        return posicaos;
+    }
+
+    @Override
+    public List<Posicao> achaPorUsuario(Usuario usuario) {
+        Query query = em.createNamedQuery("Posicao.achaPorusuario");
+        query.setParameter("usuario", usuario.getId());
+        List<Posicao> posicaos = query.getResultList();
+        return posicaos;
     }
 
     @Override

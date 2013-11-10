@@ -40,29 +40,16 @@ public class Movimento implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "seqMovimento")
     private int id;
-    @OneToOne
-    @JoinColumn(name = "id_posicao_inicial", referencedColumnName = "id")
-    private Posicao posicaoInicial;
-    @OneToOne
-    @JoinColumn(name = "id_posicao_final", referencedColumnName = "id")
-    private Posicao posicaoFinal;
+//    @OneToOne
+//    @JoinColumn(name = "id_posicao_inicial", referencedColumnName = "id")
+//    private Posicao posicaoInicial;
+//    @OneToOne
+//    @JoinColumn(name = "id_posicao_final", referencedColumnName = "id")
+//    private Posicao posicaoFinal;
     private double distancia, velocidade;
     @Temporal(TemporalType.DATE)
     private Date dia;
     private Time hora;
-
-    public Movimento() {
-    }
-
-    public Movimento(int id, Posicao posicaoInicial, Posicao posicaoFinal, double distancia, double velocidade, Date dia, Time hora) {
-        this.id = id;
-        this.posicaoInicial = posicaoInicial;
-        this.posicaoFinal = posicaoFinal;
-        this.distancia = distancia;
-        this.velocidade = velocidade;
-        this.dia = dia;
-        this.hora = hora;
-    }
 
     public int getId() {
         return id;
@@ -70,22 +57,6 @@ public class Movimento implements Serializable {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public Posicao getPosicaoInicial() {
-        return posicaoInicial;
-    }
-
-    public void setPosicaoInicial(Posicao posicaoInicial) {
-        this.posicaoInicial = posicaoInicial;
-    }
-
-    public Posicao getPosicaoFinal() {
-        return posicaoFinal;
-    }
-
-    public void setPosicaoFinal(Posicao posicaoFinal) {
-        this.posicaoFinal = posicaoFinal;
     }
 
     public double getDistancia() {
@@ -118,32 +89,5 @@ public class Movimento implements Serializable {
 
     public void setHora(Time hora) {
         this.hora = hora;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 79 * hash + this.id;
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Movimento other = (Movimento) obj;
-        if (this.id != other.id) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "Movimento{" + "id=" + id + ", posicaoInicial=" + posicaoInicial + ", posicaoFinal=" + posicaoFinal + ", distancia=" + distancia + ", velocidade=" + velocidade + ", dia=" + dia + ", hora=" + hora + '}';
     }
 }

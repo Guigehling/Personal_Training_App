@@ -57,14 +57,11 @@ public class UsuarioDAO implements UsuarioDAORemote {
     }
 
     @Override
-    public Usuario achaUsuarioPorEmail(String email) {
-        Query query = (Query) em.createNamedQuery("Usuario.achaUsuarioPorEmail").getResultList();
-        try {
-            Usuario usuario = (Usuario) query.setParameter("email", email).getSingleResult();
-            return usuario;
-        } catch (NoResultException nre) {
-            return null;
-        }
+    public Usuario achaUsuarioPorEmail(Usuario usuario) {
+        Query query = em.createNamedQuery("Usuario.achaUsuarioPorEmail");
+        query.setParameter("email", usuario.getEmail());
+        Usuario usuarioret = (Usuario) query.getSingleResult();
+        return usuarioret;
     }
 
     @Override

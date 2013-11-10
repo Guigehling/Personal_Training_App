@@ -27,5 +27,5 @@ public interface UsuarioDAORemote {
 
     List<Usuario> listaTodos();
 
-    Usuario achaUsuarioPorEmail(String email);
+    Usuario achaUsuarioPorEmail(Usuario usuario);
 }

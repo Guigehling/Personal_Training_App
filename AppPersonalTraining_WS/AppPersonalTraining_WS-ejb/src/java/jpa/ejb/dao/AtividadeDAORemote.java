@@ -7,6 +7,7 @@ package jpa.ejb.dao;
 import java.util.List;
 import javax.ejb.Remote;
 import jpa.bean.Atividade;
+import jpa.bean.Usuario;
 
 /**
  *
@@ -25,5 +26,7 @@ public interface AtividadeDAORemote {
 
     boolean valida(Atividade atividade);
 
-    List<Atividade> listaTodos();
+    List<Atividade> achaTodos();
+
+    List<Atividade> achaPorUsuario(Usuario usuari);
 }

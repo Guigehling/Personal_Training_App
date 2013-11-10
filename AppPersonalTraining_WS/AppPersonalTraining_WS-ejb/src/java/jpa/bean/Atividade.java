@@ -7,30 +7,33 @@ package jpa.bean;
 import java.io.Serializable;
 import java.sql.Time;
 import java.util.Date;
-import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Guilherme Gehling
  */
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 @Entity
 @Table(name = "atividade")
 @NamedQueries({
-    @NamedQuery(name = "Atividade.achaTODOS", query = "SELECT o FROM Atividade o ORDER BY o.id")
+    @NamedQuery(name = "Atividade.achaTODOS", query = "SELECT o FROM Atividade o ORDER BY o.id"),
+    @NamedQuery(name = "Atividade.achaPorUsuario", query = "SELECT o FROM Atividade o WHERE o.usuario = :usuario")
 })
 @SequenceGenerator(name = "seqAtividade", sequenceName = "SEQATIVIDADE", allocationSize = 1)
 public class Atividade implements Serializable {
@@ -40,25 +43,21 @@ public class Atividade implements Serializable {
     private int id;
     @Temporal(TemporalType.DATE)
     private Date dia;
-    private Time hora;
-    @ManyToOne
-    @JoinColumn(name = "id_usuario", referencedColumnName = "id")
+    private Time tempo;
+    @OneToOne(cascade = CascadeType.ALL)
     private Usuario usuario;
-    @OneToMany
-    @JoinTable(name = "atividade_movimentos", joinColumns = {
-        @JoinColumn(name = "id_atividade")}, inverseJoinColumns = {
-        @JoinColumn(name = "id_movimentos")})
-    private List<Movimento> movimentos;
+    private double distancia, velocidade;
 
     public Atividade() {
     }
 
-    public Atividade(int id, Usuario usuario, List<Movimento> movimentos, Date dia, Time hora) {
+    public Atividade(int id, Date dia, Time tempo, Usuario usuario, double distancia, double velocidade) {
         this.id = id;
-        this.usuario = usuario;
-        this.movimentos = movimentos;
         this.dia = dia;
-        this.hora = hora;
+        this.tempo = tempo;
+        this.usuario = usuario;
+        this.distancia = distancia;
+        this.velocidade = velocidade;
     }
 
     public int getId() {
@@ -69,22 +68,6 @@ public class Atividade implements Serializable {
         this.id = id;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
-    public List<Movimento> getMovimento() {
-        return movimentos;
-    }
-
-    public void setMovimento(List<Movimento> movimentos) {
-        this.movimentos = movimentos;
-    }
-
     public Date getDia() {
         return dia;
     }
@@ -93,18 +76,42 @@ public class Atividade implements Serializable {
         this.dia = dia;
     }
 
-    public Time getHora() {
-        return hora;
+    public Time getTempo() {
+        return tempo;
     }
 
-    public void setHora(Time hora) {
-        this.hora = hora;
+    public void setTempo(Time tempo) {
+        this.tempo = tempo;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public double getDistancia() {
+        return distancia;
+    }
+
+    public void setDistancia(double distancia) {
+        this.distancia = distancia;
+    }
+
+    public double getVelocidade() {
+        return velocidade;
+    }
+
+    public void setVelocidade(double velocidade) {
+        this.velocidade = velocidade;
     }
 
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 41 * hash + this.id;
+        hash = 67 * hash + this.id;
         return hash;
     }
 
@@ -121,5 +128,10 @@ public class Atividade implements Serializable {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Atividade{" + "id=" + id + ", dia=" + dia + ", tempo=" + tempo + ", usuario=" + usuario + ", distancia=" + distancia + ", velocidade=" + velocidade + '}';
     }
 }

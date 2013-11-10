@@ -8,7 +8,9 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import jpa.bean.Atividade;
+import jpa.bean.Usuario;
 
 /**
  *
@@ -50,8 +52,16 @@ public class AtividadeDAO implements AtividadeDAORemote {
     }
 
     @Override
-    public List<Atividade> listaTodos() {
+    public List<Atividade> achaTodos() {
         return (List<Atividade>) em.createNamedQuery("Atividade.achaTODOS").getResultList();
+    }
+
+    @Override
+    public List<Atividade> achaPorUsuario(Usuario usuario) {
+        Query query = em.createNamedQuery("Atividade.achaPorUsuario");
+        query.setParameter("usuario", usuario.getId());
+        List<Atividade> atividades = query.getResultList();
+        return atividades;
     }
 
     @Override

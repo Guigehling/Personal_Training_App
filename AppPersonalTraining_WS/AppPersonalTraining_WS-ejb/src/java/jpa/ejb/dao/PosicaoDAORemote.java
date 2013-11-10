@@ -6,7 +6,9 @@ package jpa.ejb.dao;
 
 import java.util.List;
 import javax.ejb.Remote;
+import jpa.bean.Atividade;
 import jpa.bean.Posicao;
+import jpa.bean.Usuario;
 
 /**
  *
@@ -25,7 +27,9 @@ public interface PosicaoDAORemote {
 
     boolean valida(Posicao posicao);
 
-    List<Posicao> listaTodos();
+    List<Posicao> achaTodos();
 
-    Posicao achaUltimoAcesso();
+    List<Posicao> achaPorAtividade(Atividade atividade);
+
+    List<Posicao> achaPorUsuario(Usuario usuario);
 }
