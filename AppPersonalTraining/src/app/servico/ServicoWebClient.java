@@ -5,6 +5,7 @@
 package app.servico;
 
 import app.auxiliares.ServicoException;
+import app.bean.Atividade;
 import app.bean.Movimento;
 import app.bean.Posicao;
 import app.bean.Usuario;
@@ -22,8 +23,8 @@ import java.net.URL;
  */
 public class ServicoWebClient {
 
-    //private static final String URL = "http://10.0.0.101:8080/AppPersonalTraining_WS-war/servico/servicoweb";
-    private static final String URL = "http://10.13.2.199:8080/AppPersonalTraining_WS-war/servico/servicoweb";
+    private static final String URL = "http://10.0.0.101:8080/AppPersonalTraining_WS-war/servico/servicoweb";
+    // private static final String URL = "http://10.13.2.199:8080/AppPersonalTraining_WS-war/servico/servicoweb";
 
     /**
      * Este metodo é o responsavel por solicitar a conexao com o web server e
@@ -33,14 +34,14 @@ public class ServicoWebClient {
      * @return Movimento
      * @throws ServicoException
      */
-    public Movimento retornaMovimento(Posicao posicao) throws ServicoException {
+    public Atividade retornaAtividade(Posicao posicao) throws ServicoException {
         Gson gson = new GsonBuilder().create();
         String json = gson.toJson(posicao);
-        String resp = new String(this.rquesicaoMovimento(json.getBytes(), "/retjsondist"));
-        return gson.fromJson(resp, Movimento.class);
+        String resp = new String(this.rquesicaoAtividade(json.getBytes(), "/retjsondist"));
+        return gson.fromJson(resp, Atividade.class);
     }
 
-    private byte[] rquesicaoMovimento(byte[] params, String path) throws ServicoException {
+    private byte[] rquesicaoAtividade(byte[] params, String path) throws ServicoException {
         try {
             URL urlObj = new URL(ServicoWebClient.URL + path);
             HttpURLConnection httpConn = (HttpURLConnection) urlObj.openConnection();
@@ -73,10 +74,18 @@ public class ServicoWebClient {
         }
     }
 
+    /**
+     * Este metodo é o responsavel por solicitar a conexao com o web server e
+     * montar o arquivo a ser enviado.
+     *
+     * @param Usuario
+     * @return Movimento
+     * @throws ServicoException
+     */
     public Usuario retonaUsuario(Usuario usuario) throws ServicoException {
         Gson gson = new GsonBuilder().create();
         String json = gson.toJson(usuario);
-        String resp = new String(this.rquesicaoMovimento(json.getBytes(), "/retjsondist"));
+        String resp = new String(this.rquesicaoUsuario(json.getBytes(), "/retusuario"));
         return gson.fromJson(resp, Usuario.class);
     }
 

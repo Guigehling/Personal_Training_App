@@ -9,7 +9,6 @@ and open the template in the editor.
     android:layout_height="fill_parent"
     android:background="#F5F5F5"
     xmlns:android="http://schemas.android.com/apk/res/android">
-
     <EditText
         android:id="@+id/txtEmail"
         android:layout_width="157dp"
@@ -19,7 +18,6 @@ and open the template in the editor.
         android:gravity="center"
         android:layout_x="77dp"
         android:layout_y="104dp" />
-    
     <EditText
         android:id="@+id/txtSenha"
         android:layout_width="157dp"
@@ -30,7 +28,6 @@ and open the template in the editor.
         android:password="true"
         android:layout_x="76dp"
         android:layout_y="171dp" />
-    
     <Button
         android:id="@+id/btLogin"
         android:onClick="onClickbtLogin"

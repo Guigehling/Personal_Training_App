@@ -4,10 +4,11 @@
  */
 package app.bean;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.sql.Time;
 import java.util.Date;
-import java.util.List;
 
 /**
  *
@@ -15,21 +16,35 @@ import java.util.List;
  */
 public class Atividade implements Serializable {
 
+    @Expose
+    @SerializedName("id")
     private int id;
+    @Expose
+    @SerializedName("dia")
     private Date dia;
-    private Time hora;
-    private Usuario usuario;
-    private List<Movimento> movimentos;
+    @Expose
+    @SerializedName("tempo")
+    private Time tempo;
+    @Expose
+    @SerializedName("usuario_id")
+    private int usuario_id;
+    @Expose
+    @SerializedName("distancia")
+    private double distancia;
+    @Expose
+    @SerializedName("velocidade")
+    private double velocidade;
 
     public Atividade() {
     }
 
-    public Atividade(int id, Usuario usuario, List<Movimento> movimentos, Date dia, Time hora) {
+    public Atividade(int id, Date dia, Time tempo, int usuario_id, double distancia, double velocidade) {
         this.id = id;
-        this.usuario = usuario;
-        this.movimentos = movimentos;
         this.dia = dia;
-        this.hora = hora;
+        this.tempo = tempo;
+        this.usuario_id = usuario_id;
+        this.distancia = distancia;
+        this.velocidade = velocidade;
     }
 
     public int getId() {
@@ -40,22 +55,6 @@ public class Atividade implements Serializable {
         this.id = id;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
-    public List<Movimento> getMovimento() {
-        return movimentos;
-    }
-
-    public void setMovimento(List<Movimento> movimentos) {
-        this.movimentos = movimentos;
-    }
-
     public Date getDia() {
         return dia;
     }
@@ -64,18 +63,42 @@ public class Atividade implements Serializable {
         this.dia = dia;
     }
 
-    public Time getHora() {
-        return hora;
+    public Time getTempo() {
+        return tempo;
     }
 
-    public void setHora(Time hora) {
-        this.hora = hora;
+    public void setTempo(Time tempo) {
+        this.tempo = tempo;
+    }
+
+    public int getUsuario_id() {
+        return usuario_id;
+    }
+
+    public void setUsuario_id(int usuario_id) {
+        this.usuario_id = usuario_id;
+    }
+
+    public double getDistancia() {
+        return distancia;
+    }
+
+    public void setDistancia(double distancia) {
+        this.distancia = distancia;
+    }
+
+    public double getVelocidade() {
+        return velocidade;
+    }
+
+    public void setVelocidade(double velocidade) {
+        this.velocidade = velocidade;
     }
 
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 41 * hash + this.id;
+        hash = 53 * hash + this.id;
         return hash;
     }
 
@@ -92,5 +115,10 @@ public class Atividade implements Serializable {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Atividade{" + "id=" + id + ", dia=" + dia + ", tempo=" + tempo + ", usuario_id=" + usuario_id + ", distancia=" + distancia + ", velocidade=" + velocidade + '}';
     }
 }

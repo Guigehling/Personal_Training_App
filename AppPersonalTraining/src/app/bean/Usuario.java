@@ -21,7 +21,7 @@ public class Usuario implements Serializable {
     @SerializedName("nome")
     private String nome;
     @Expose
-    @SerializedName("emial")
+    @SerializedName("email")
     private String email;
     @Expose
     @SerializedName("senha")
@@ -89,5 +89,10 @@ public class Usuario implements Serializable {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Usuario{" + "id=" + id + ", nome=" + nome + ", email=" + email + ", senha=" + senha + '}';
     }
 }

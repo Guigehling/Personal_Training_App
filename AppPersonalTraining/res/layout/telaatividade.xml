@@ -1,27 +1,88 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this template, choose Tools | Templates
-and open the template in the editor.
--->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:background="#F5F5F5">
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout
+    android:id="@+id/widget0"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#F5F5F5"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageButton
+        android:id="@+id/btstart"
+        android:layout_width="84dp"
+        android:layout_height="63dp"
+        android:layout_x="39dp"
+        android:layout_y="260dp"
+        android:src="@drawable/play"
+        android:onClick="onClickBtStart"/>
+    <ImageButton
+        android:id="@+id/btstop"
+        android:layout_width="82dp"
+        android:layout_height="61dp"
+        android:layout_x="191dp"
+        android:layout_y="259dp" 
+        android:src="@drawable/stop"
+        android:onClick="onClickBtStop"/>
     <TextView
-        android:layout_width="fill_parent"
+        android:id="@+id/txtdistancia"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Enviado:"
-        android:textColor="#FFFFFF"/>
-    <EditText
-        android:layout_width="fill_parent"
+        android:text="0.0 Km"
+        android:textSize="20sp"
+        android:textColor="#ff0066ff"
+        android:layout_x="162dp"
+        android:layout_y="74dp" />
+    <TextView
+        android:id="@+id/lbldistancia"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/txtEnviar" />
-    <Button
-        android:layout_width="fill_parent"
+        android:text="Distancia:"
+        android:textSize="20sp"
+        android:textStyle="italic"
+        android:textColor="#ff0066ff"
+        android:layout_x="46dp"
+        android:layout_y="72dp" />
+    <TextView
+        android:id="@+id/lbltempo"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Enviar"
-        android:id="@+id/btEnviar"
-        android:onClick="onClickBtEnviar"
-    />
-</LinearLayout>
+        android:text="Tempo:"
+        android:textSize="20sp"
+        android:textColor="#ff0066ff"
+        android:layout_x="67dp"
+        android:layout_y="123dp" />
+    <TextView
+        android:id="@+id/lblvelocidade"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Velocidade:"
+        android:textSize="20sp"
+        android:textColor="#ff0066cc"
+        android:layout_x="34dp"
+        android:layout_y="170dp" />
+    <TextView
+        android:id="@+id/txttempo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00:00"
+        android:textSize="20sp"
+        android:textColor="#ff0066cc"
+        android:layout_x="162dp"
+        android:layout_y="125dp" />
+    <TextView
+        android:id="@+id/txtvelocidade"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0 Km/s"
+        android:textSize="20sp"
+        android:textColor="#ff0066cc"
+        android:layout_x="163dp"
+        android:layout_y="172dp" />
+    <TextView
+        android:id="@+id/lblatividade"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:text="Atividade"
+        android:textSize="22sp"
+        android:textColor="#ff0066cc"
+        android:layout_x="104dp"
+        android:layout_y="21dp" />
+</AbsoluteLayout>

@@ -32,23 +32,23 @@ public class Posicao implements Serializable {
     @SerializedName("hora")
     private Time hora;
     @Expose
-    @SerializedName("usuario")
-    private Usuario usuario;
+    @SerializedName("usuario_id")
+    private int usuario_id;
     @Expose
-    @SerializedName("ultimaPosicao")
-    private boolean ultimaPosicao;
+    @SerializedName("atividade_id")
+    private int atividade_id;
 
     public Posicao() {
     }
 
-    public Posicao(int id, String latitude, String longitude, Date dia, Time hora, Usuario usuario, boolean ultimaPosicao) {
+    public Posicao(int id, String latitude, String longitude, Date dia, Time hora, int usuario_id, int atividade_id) {
         this.id = id;
         this.latitude = latitude;
         this.longitude = longitude;
         this.dia = dia;
         this.hora = hora;
-        this.usuario = usuario;
-        this.ultimaPosicao = ultimaPosicao;
+        this.usuario_id = usuario_id;
+        this.atividade_id = atividade_id;
     }
 
     public int getId() {
@@ -91,26 +91,26 @@ public class Posicao implements Serializable {
         this.hora = hora;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public int getUsuario_id() {
+        return usuario_id;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setUsuario_id(int usuario_id) {
+        this.usuario_id = usuario_id;
     }
 
-    public boolean isUltimaPosicao() {
-        return ultimaPosicao;
+    public int getAtividade_id() {
+        return atividade_id;
     }
 
-    public void setUltimaPosicao(boolean ultimaPosicao) {
-        this.ultimaPosicao = ultimaPosicao;
+    public void setAtividade_id(int atividade_id) {
+        this.atividade_id = atividade_id;
     }
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 89 * hash + this.id;
+        int hash = 7;
+        hash = 61 * hash + this.id;
         return hash;
     }
 
@@ -131,6 +131,6 @@ public class Posicao implements Serializable {
 
     @Override
     public String toString() {
-        return "Posicao{" + "id=" + id + ", latitude=" + latitude + ", longitude=" + longitude + ", dia=" + dia + ", hora=" + hora + ", usuario=" + usuario + ", ultimaPosicao=" + ultimaPosicao + '}';
+        return "Posicao{" + "id=" + id + ", latitude=" + latitude + ", longitude=" + longitude + ", dia=" + dia + ", hora=" + hora + ", usuario_id=" + usuario_id + ", atividade_id=" + atividade_id + '}';
     }
 }
