@@ -28,5 +28,7 @@ public interface AtividadeDAORemote {
 
     List<Atividade> achaTodos();
 
-    List<Atividade> achaPorUsuario(Usuario usuari);
+    List<Atividade> achaPorUsuario(Usuario usuario);
+
+    Atividade achaEmExecucao(Usuario usuario);
 }

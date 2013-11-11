@@ -65,6 +65,19 @@ public class AtividadeDAO implements AtividadeDAORemote {
     }
 
     @Override
+    public Atividade achaEmExecucao(Usuario usuario) {
+        Query query = em.createNamedQuery("Atividade.achaEmExecucao");
+        query.setParameter("usuario", usuario.getId());
+        Atividade atividade = new Atividade();
+        if (query.getResultList().size() > 0) {
+            atividade = (Atividade) query.getSingleResult();
+        } else {
+            create(atividade);
+        }
+        return atividade;
+    }
+
+    @Override
     public boolean valida(Atividade atividade) {
         boolean ret = false;
         if (atividade != null) {

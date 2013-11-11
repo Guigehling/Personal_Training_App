@@ -33,7 +33,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "atividade")
 @NamedQueries({
     @NamedQuery(name = "Atividade.achaTODOS", query = "SELECT o FROM Atividade o ORDER BY o.id"),
-    @NamedQuery(name = "Atividade.achaPorUsuario", query = "SELECT o FROM Atividade o WHERE o.usuario = :usuario")
+    @NamedQuery(name = "Atividade.achaPorUsuario", query = "SELECT o FROM Atividade o WHERE o.usuario = :usuario"),
+    @NamedQuery(name = "Atividade.achaEmExecucao", query = "SELECT o FROM Atividade o WHERE o.usuario = :usuario AND o.concluida = FALSE")
 })
 @SequenceGenerator(name = "seqAtividade", sequenceName = "SEQATIVIDADE", allocationSize = 1)
 public class Atividade implements Serializable {
@@ -47,17 +48,19 @@ public class Atividade implements Serializable {
     @OneToOne(cascade = CascadeType.ALL)
     private Usuario usuario;
     private double distancia, velocidade;
+    private boolean concluida;
 
     public Atividade() {
     }
 
-    public Atividade(int id, Date dia, Time tempo, Usuario usuario, double distancia, double velocidade) {
+    public Atividade(int id, Date dia, Time tempo, Usuario usuario, double distancia, double velocidade, boolean concluida) {
         this.id = id;
         this.dia = dia;
         this.tempo = tempo;
         this.usuario = usuario;
         this.distancia = distancia;
         this.velocidade = velocidade;
+        this.concluida = concluida;
     }
 
     public int getId() {
@@ -108,10 +111,18 @@ public class Atividade implements Serializable {
         this.velocidade = velocidade;
     }
 
+    public boolean isConcluida() {
+        return concluida;
+    }
+
+    public void setConcluida(boolean concluida) {
+        this.concluida = concluida;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 67 * hash + this.id;
+        int hash = 7;
+        hash = 13 * hash + this.id;
         return hash;
     }
 
@@ -132,6 +143,6 @@ public class Atividade implements Serializable {
 
     @Override
     public String toString() {
-        return "Atividade{" + "id=" + id + ", dia=" + dia + ", tempo=" + tempo + ", usuario=" + usuario + ", distancia=" + distancia + ", velocidade=" + velocidade + '}';
+        return "Atividade{" + "id=" + id + ", dia=" + dia + ", tempo=" + tempo + ", usuario=" + usuario + ", distancia=" + distancia + ", velocidade=" + velocidade + ", concluida=" + concluida + '}';
     }
 }
