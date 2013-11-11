@@ -33,7 +33,7 @@ public class TelaLogin extends Activity {
         UsuarioDAO usuarioDAO = new UsuarioDAO(this);
         Usuario usuario = usuarioDAO.retrive();
         if (usuario != null) {
-            Intent intent = new Intent(this, TelaAtividade.class);
+            Intent intent = new Intent(this, TelaOpcoes.class);
             startActivity(intent);
         }
     }

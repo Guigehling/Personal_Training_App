@@ -34,17 +34,21 @@ public class Atividade implements Serializable {
     @Expose
     @SerializedName("velocidade")
     private double velocidade;
+    @Expose
+    @SerializedName("concluida")
+    private int concluida;
 
     public Atividade() {
     }
 
-    public Atividade(int id, Date dia, Time tempo, int usuario_id, double distancia, double velocidade) {
+    public Atividade(int id, Date dia, Time tempo, int usuario_id, double distancia, double velocidade, int concluida) {
         this.id = id;
         this.dia = dia;
         this.tempo = tempo;
         this.usuario_id = usuario_id;
         this.distancia = distancia;
         this.velocidade = velocidade;
+        this.concluida = concluida;
     }
 
     public int getId() {
@@ -95,9 +99,17 @@ public class Atividade implements Serializable {
         this.velocidade = velocidade;
     }
 
+    public int getConcluida() {
+        return concluida;
+    }
+
+    public void setConcluida(int concluida) {
+        this.concluida = concluida;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 3;
+        int hash = 7;
         hash = 53 * hash + this.id;
         return hash;
     }
@@ -119,6 +131,6 @@ public class Atividade implements Serializable {
 
     @Override
     public String toString() {
-        return "Atividade{" + "id=" + id + ", dia=" + dia + ", tempo=" + tempo + ", usuario_id=" + usuario_id + ", distancia=" + distancia + ", velocidade=" + velocidade + '}';
+        return "Atividade{" + "id=" + id + ", dia=" + dia + ", tempo=" + tempo + ", usuario_id=" + usuario_id + ", distancia=" + distancia + ", velocidade=" + velocidade + ", concluida=" + concluida + '}';
     }
 }

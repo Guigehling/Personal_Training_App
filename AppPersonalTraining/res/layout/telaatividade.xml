@@ -12,7 +12,18 @@
         android:layout_x="39dp"
         android:layout_y="260dp"
         android:src="@drawable/play"
+        android:background="#F5F5F5"
         android:onClick="onClickBtStart"/>
+    <ImageButton
+        android:id="@+id/btpause"
+        android:layout_width="84dp"
+        android:layout_height="63dp"
+        android:layout_x="39dp"
+        android:layout_y="260dp"
+        android:src="@drawable/pause"
+        android:background="#F5F5F5"
+        android:onClick="onClickBtpause"
+        android:visibility="invisible"/>
     <ImageButton
         android:id="@+id/btstop"
         android:layout_width="82dp"
@@ -20,6 +31,7 @@
         android:layout_x="191dp"
         android:layout_y="259dp" 
         android:src="@drawable/stop"
+        android:background="#F5F5F5"
         android:onClick="onClickBtStop"/>
     <TextView
         android:id="@+id/txtdistancia"
@@ -41,11 +53,12 @@
         android:layout_x="46dp"
         android:layout_y="72dp" />
     <TextView
-        android:id="@+id/lbltempo"
+        android:id="@+id/lblcronometro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Tempo:"
         android:textSize="20sp"
+        android:textStyle="italic"
         android:textColor="#ff0066ff"
         android:layout_x="67dp"
         android:layout_y="123dp" />
@@ -54,16 +67,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Velocidade:"
+        android:textStyle="italic"
         android:textSize="20sp"
         android:textColor="#ff0066cc"
         android:layout_x="34dp"
         android:layout_y="170dp" />
-    <TextView
-        android:id="@+id/txttempo"
+    <Chronometer 
+        android:id="@+id/txtcronometro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="00:00"
+        android:text="cronometro"
         android:textSize="20sp"
+        android:format="%s"
         android:textColor="#ff0066cc"
         android:layout_x="162dp"
         android:layout_y="125dp" />

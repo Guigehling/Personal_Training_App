@@ -13,7 +13,7 @@ import android.view.WindowManager;
 public class TelaSplashScreen extends Activity {
 
     private static String TAG = TelaSplashScreen.class.getName();
-    private static long SLEEP_TIME = 5;
+    private static long SLEEP_TIME = 3;
 
     @Override
     public void onCreate(Bundle bundle) {

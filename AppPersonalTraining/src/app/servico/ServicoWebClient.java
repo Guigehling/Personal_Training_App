@@ -37,7 +37,7 @@ public class ServicoWebClient {
     public Atividade retornaAtividade(Posicao posicao) throws ServicoException {
         Gson gson = new GsonBuilder().create();
         String json = gson.toJson(posicao);
-        String resp = new String(this.rquesicaoAtividade(json.getBytes(), "/retjsondist"));
+        String resp = new String(this.rquesicaoAtividade(json.getBytes(), "/retatividade"));
         return gson.fromJson(resp, Atividade.class);
     }
 
