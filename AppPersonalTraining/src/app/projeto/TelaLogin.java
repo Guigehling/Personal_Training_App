@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.EditText;
 import app.auxiliares.ServicoException;
 import app.bean.Usuario;
+import app.dao.UsuarioDAO;
 import app.servico.ServicoWebClient;
 
 /**
@@ -29,29 +30,32 @@ public class TelaLogin extends Activity {
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         setContentView(R.layout.telalogin);
-//        UsuarioDAO usuarioDAO = new UsuarioDAO(this);
-//        Usuario usuario = usuarioDAO.retrive();
-//        if (usuario != null) {
-//            Intent intent = new Intent(this, TelaAtividade.class);
-//            startActivity(intent);
-//        }
+        UsuarioDAO usuarioDAO = new UsuarioDAO(this);
+        Usuario usuario = usuarioDAO.retrive();
+        if (usuario != null) {
+            Intent intent = new Intent(this, TelaAtividade.class);
+            startActivity(intent);
+        }
     }
 
     public void onClickbtLogin(View v) throws InterruptedException, ServicoException {
         EditText txtEmail = (EditText) findViewById(R.id.txtEmail);
         EditText txtSenha = (EditText) findViewById(R.id.txtSenha);
+
+        txtEmail.setText("g");
+        txtSenha.setText("g");
+
         Usuario novousuario = new Usuario();
-        novousuario.setId(1);
-        novousuario.setNome("");
         novousuario.setEmail(txtEmail.getText().toString());
         novousuario.setSenha(txtSenha.getText().toString());
-        Usuario usuarioconfirmado = new Usuario();
-        usuarioconfirmado = servico.retonaUsuario(novousuario);
-        if (usuarioconfirmado != null) {
+        Usuario usuarioconfirmado = servico.retonaUsuario(novousuario);
+        if (!"Não Cadastrado".equals(usuarioconfirmado.getNome())) {
+            UsuarioDAO usuarioDAO = new UsuarioDAO(this);
+            usuarioDAO.create(usuarioconfirmado);
             Intent intent = new Intent(this, TelaAtividade.class);
             startActivity(intent);
         } else {
-            new AlertDialog.Builder(this).setTitle("Aviso!!").setMessage("Falha na Conexão!").setNeutralButton("OK", null).show();
+            new AlertDialog.Builder(this).setTitle("Aviso!!").setMessage("Usuario não encontrado!").setNeutralButton("OK", null).show();
         }
     }
 }
