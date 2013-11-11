@@ -7,7 +7,6 @@ package jpa.ejb.dao;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import jpa.bean.Usuario;
@@ -60,7 +59,12 @@ public class UsuarioDAO implements UsuarioDAORemote {
     public Usuario achaUsuarioPorEmail(Usuario usuario) {
         Query query = em.createNamedQuery("Usuario.achaUsuarioPorEmail");
         query.setParameter("email", usuario.getEmail());
-        Usuario usuarioret = (Usuario) query.getSingleResult();
+        Usuario usuarioret = new Usuario();
+        if (query.getResultList().size() > 0) {
+            usuarioret = (Usuario) query.getSingleResult();
+        } else {
+            usuarioret.setNome("Não Cadastrado");
+        }
         return usuarioret;
     }
 

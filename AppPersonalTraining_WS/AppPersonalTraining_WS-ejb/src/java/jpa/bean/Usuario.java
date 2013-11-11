@@ -36,7 +36,6 @@ public class Usuario implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "seqUsuario")
     private int id;
-    @Column(nullable = true)
     private String nome, email, senha;
 
     public Usuario() {

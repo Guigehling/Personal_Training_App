@@ -5,6 +5,7 @@
 package servico;
 
 import java.io.IOException;
+import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -13,7 +14,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import jpa.bean.Usuario;
-import jpa.ejb.dao.UsuarioDAO;
+import jpa.ejb.dao.UsuarioDAORemote;
 
 /**
  *
@@ -23,12 +24,8 @@ import jpa.ejb.dao.UsuarioDAO;
 @RequestScoped
 public class ServicoWeb {
 
-//    @EJB
-//    PosicaoDAO posicaoDAO;
-    UsuarioDAO usuarioDAO;
-//    Atividade atividade = new Atividade();
-//    Posicao ultimaPosicao = new Posicao();
-    Usuario usuarioret = new Usuario();
+    @EJB
+    UsuarioDAORemote usuarioDAORemote;
 
     @GET
     @Path(value = "teste")
@@ -42,13 +39,11 @@ public class ServicoWeb {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Usuario postUsuario(Usuario usuario) throws IOException {
-        usuarioret = null;
-        usuarioret = usuarioDAO.achaUsuarioPorEmail(usuario);
-        return usuarioret;
+        return usuarioDAORemote.achaUsuarioPorEmail(usuario);
     }
 //    @POST
 //    @Path(value = "retjsondist")
-//    @Consumes(MediaType.APPLICATION_JSON)
+//    @Consumes(MediaType.APPLICATION_JSON) 
 //    @Produces(MediaType.APPLICATION_JSON)
 //    public Atividade postMovimento(Posicao posicao) throws IOException {
 //        atividade = null;
