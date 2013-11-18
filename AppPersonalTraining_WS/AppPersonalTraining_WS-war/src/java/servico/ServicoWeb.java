@@ -15,7 +15,6 @@ import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
 import jpa.bean.Atividade;
 import jpa.bean.Movimento;
-import jpa.bean.Posicao;
 import jpa.bean.Usuario;
 import jpa.ejb.dao.AtividadeDAORemote;
 import jpa.ejb.dao.UsuarioDAORemote;
@@ -29,6 +28,9 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
+import jpa.auxiliar.AtividadeAux;
+import jpa.auxiliar.PosicaoAux;
+import jpa.auxiliar.UsuarioAux;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
@@ -55,16 +57,35 @@ public class ServicoWeb {
     @Path(value = "retusuario")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Usuario postUsuario(Usuario usuario) throws IOException {
-        return usuarioDAORemote.achaUsuarioPorEmail(usuario);
+    public UsuarioAux postUsuario(UsuarioAux usuarioAux) throws IOException {
+        Usuario usuario = usuarioAux.converteParaUsuario();
+        usuario = usuarioDAORemote.achaUsuarioPorEmail(usuario);
+        usuarioAux.converteParaUsuarioAux(usuario);
+        return usuarioAux;
+    }
+
+    @POST
+    @Path(value = "retnovousuario")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public UsuarioAux postNovoUsuario(UsuarioAux usuarioAux) throws IOException {
+        Usuario usuario = usuarioAux.converteParaUsuario();
+        usuario = usuarioDAORemote.achaUsuarioPorEmail(usuario);
+        if ("Não Cadastrado".equals(usuario.getNome())) {
+            usuario = usuarioAux.converteParaUsuario();
+            usuarioDAORemote.create(usuario);
+            usuario = usuarioDAORemote.achaUsuarioPorEmail(usuario);
+        }
+        usuarioAux.converteParaUsuarioAux(usuario);
+        return usuarioAux;
     }
 
     @POST
     @Path(value = "retatividade")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Atividade postMovimento(Posicao posicao) throws IOException {
-        Atividade atividade = new Atividade();
+    public AtividadeAux postMovimento(PosicaoAux posicao) throws IOException {
+        AtividadeAux atividadeAux = new AtividadeAux();
 //        atividade = null;
 //        ultimaPosicao = null;
 //        ultimaPosicao = posicaoDAO.achaUltimoAcesso();
@@ -77,7 +98,7 @@ public class ServicoWeb {
 //
 //            return null;
 //        }
-        return atividade;
+        return atividadeAux;
     }
 
     /**

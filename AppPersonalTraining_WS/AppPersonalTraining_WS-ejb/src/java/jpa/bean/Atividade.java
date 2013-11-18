@@ -111,7 +111,7 @@ public class Atividade implements Serializable {
         this.velocidade = velocidade;
     }
 
-    public boolean isConcluida() {
+    public boolean getConcluida() {
         return concluida;
     }
 

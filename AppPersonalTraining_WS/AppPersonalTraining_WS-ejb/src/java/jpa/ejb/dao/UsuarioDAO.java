@@ -60,6 +60,7 @@ public class UsuarioDAO implements UsuarioDAORemote {
         Query query = em.createNamedQuery("Usuario.achaUsuarioPorEmail");
         query.setParameter("email", usuario.getEmail());
         Usuario usuarioret = new Usuario();
+        usuarioret.setNome("Não Cadastrado");
         if (query.getResultList().size() > 0) {
             usuarioret = (Usuario) query.getSingleResult();
         } else {

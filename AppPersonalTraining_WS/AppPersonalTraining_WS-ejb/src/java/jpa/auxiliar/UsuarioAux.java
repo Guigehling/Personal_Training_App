@@ -2,23 +2,18 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package jpa.bean;
+package jpa.auxiliar;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import jpa.bean.Usuario;
 
 /**
  *
@@ -26,28 +21,18 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@Entity
-@Table(name = "usuario")
-@NamedQueries({
-    @NamedQuery(name = "Usuario.achaTODOS", query = "SELECT o FROM Usuario o ORDER BY o.id"),
-    @NamedQuery(name = "Usuario.achaUsuarioPorEmail", query = "SELECT o FROM Usuario o WHERE o.email = :email")
-})
-@SequenceGenerator(name = "seqUsuario", sequenceName = "SEQUSUARIO", allocationSize = 1)
-public class Usuario implements Serializable {
+public class UsuarioAux implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "seqUsuario")
     private int id;
     private String nome, email, senha;
-    @Temporal(TemporalType.DATE)
-    private Date dataNascimento;
+    private String dataNascimento;
     private String sexo;
     private double peso;
 
-    public Usuario() {
+    public UsuarioAux() {
     }
 
-    public Usuario(int id, String nome, String email, String senha, Date dataNascimento, String sexo, double peso) {
+    public UsuarioAux(int id, String nome, String email, String senha, String dataNascimento, String sexo, double peso) {
         this.id = id;
         this.nome = nome;
         this.email = email;
@@ -89,11 +74,11 @@ public class Usuario implements Serializable {
         this.senha = senha;
     }
 
-    public Date getDataNascimento() {
+    public String getDataNascimento() {
         return dataNascimento;
     }
 
-    public void setDataNascimento(Date dataNascimento) {
+    public void setDataNascimento(String dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
 
@@ -113,6 +98,42 @@ public class Usuario implements Serializable {
         this.peso = peso;
     }
 
+    public void converteParaUsuarioAux(Usuario usuario) {
+        this.id = usuario.getId();
+        this.nome = usuario.getNome();
+        this.email = usuario.getEmail();
+        this.senha = usuario.getSenha();
+        if (usuario.getDataNascimento() != null) {
+            SimpleDateFormat dataformatacao = new SimpleDateFormat("dd/MM/yyyy");
+            String dataTexto = dataformatacao.format(usuario.getDataNascimento());
+            this.dataNascimento = dataTexto;
+        } else {
+            this.dataNascimento = null;
+        }
+        this.sexo = usuario.getSexo();
+        this.peso = usuario.getPeso();
+    }
+
+    public Usuario converteParaUsuario() {
+        Usuario usuario = new Usuario();
+        usuario.setId(this.id);
+        usuario.setNome(this.nome);
+        usuario.setEmail(this.email);
+        usuario.setSenha(this.senha);
+        String dia = this.dataNascimento;
+        SimpleDateFormat dataformatacao = new SimpleDateFormat("dd/MM/yyyy");
+        Date dataData = null;
+        try {
+            dataData = (Date) dataformatacao.parse(dia);
+        } catch (ParseException ex) {
+            Logger.getLogger(UsuarioAux.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        usuario.setDataNascimento(dataData);
+        usuario.setSexo(this.sexo);
+        usuario.setPeso(this.peso);
+        return usuario;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
@@ -128,7 +149,7 @@ public class Usuario implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Usuario other = (Usuario) obj;
+        final UsuarioAux other = (UsuarioAux) obj;
         if (this.id != other.id) {
             return false;
         }
