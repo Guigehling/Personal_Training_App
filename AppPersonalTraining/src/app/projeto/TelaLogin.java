@@ -39,8 +39,8 @@ public class TelaLogin extends Activity {
     }
 
     public void onClickbtLogin(View v) throws InterruptedException, ServicoException {
-        EditText txtEmail = (EditText) findViewById(R.id.txtEmail);
-        EditText txtSenha = (EditText) findViewById(R.id.txtSenha);
+        EditText txtEmail = (EditText) findViewById(R.id.txtEmailLogin);
+        EditText txtSenha = (EditText) findViewById(R.id.txtSenhaLogin);
 
         txtEmail.setText("g");
         txtSenha.setText("g");
@@ -57,5 +57,10 @@ public class TelaLogin extends Activity {
         } else {
             new AlertDialog.Builder(this).setTitle("Aviso!!").setMessage("Usuario não encontrado!").setNeutralButton("OK", null).show();
         }
+    }
+
+    public void onClickbtCadastro(View v) {
+        Intent intent = new Intent(this, TelaCadastroUsuario.class);
+        startActivity(intent);
     }
 }

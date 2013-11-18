@@ -10,8 +10,13 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import app.bd.BancoDados;
 import app.bean.Usuario;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -33,6 +38,11 @@ public class UsuarioDAO {
         valores.put("nome", usuario.getNome());
         valores.put("email", usuario.getEmail());
         valores.put("senha", usuario.getSenha());
+        SimpleDateFormat dataformatacao = new SimpleDateFormat("dd/MM/yyyy");
+        String dataformatada = dataformatacao.format(usuario.getDataNascimento());
+        valores.put("dataNascimento", dataformatada);
+        valores.put("sexo", usuario.getSexo());
+        valores.put("peso", usuario.getPeso());
         conn.insert("usuario", null, valores);
         conn.close();
     }
@@ -49,6 +59,17 @@ public class UsuarioDAO {
             usuario.setNome(cursor.getString(1));
             usuario.setEmail(cursor.getString(2));
             usuario.setSenha(cursor.getString(3));
+            String dia = cursor.getString(4);
+            SimpleDateFormat dataformatacao = new SimpleDateFormat("dd/MM/yyyy");
+            Date dataformatada = null;
+            try {
+                dataformatada = (Date) dataformatacao.parse(dia);
+            } catch (ParseException ex) {
+                Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            usuario.setDataNascimento(dataformatada);
+            usuario.setSexo(cursor.getString(5));
+            usuario.setPeso(cursor.getDouble(6));
             usr = usuario;
             cursor.moveToNext();
         }
@@ -65,6 +86,11 @@ public class UsuarioDAO {
         valores.put("nome", usuario.getNome());
         valores.put("email", usuario.getEmail());
         valores.put("senha", usuario.getSenha());
+        SimpleDateFormat dataformatacao = new SimpleDateFormat("dd/MM/yyyy");
+        String dataformatada = dataformatacao.format(usuario.getDataNascimento());
+        valores.put("dataNascimento", dataformatada);
+        valores.put("sexo", usuario.getSexo());
+        valores.put("peso", usuario.getPeso());
         conn.update("usuario", valores, null, null);
         conn.close();
     }
@@ -75,7 +101,7 @@ public class UsuarioDAO {
         conn.delete("usuario", null, null);
     }
 
-    public List<Usuario> listContact(Usuario logado) {
+    public List<Usuario> listContact(Usuario logado)  {
         List<Usuario> lista = new ArrayList<Usuario>();
         BancoDados bd = new BancoDados(context);
         SQLiteDatabase conn = bd.getWritableDatabase();
@@ -85,7 +111,19 @@ public class UsuarioDAO {
             Usuario usuario = new Usuario();
             usuario.setId(cursor.getInt(0));
             usuario.setNome(cursor.getString(1));
-            usuario.setSenha(cursor.getString(2));
+            usuario.setEmail(cursor.getString(2));
+            usuario.setSenha(cursor.getString(3));
+            String dia = cursor.getString(4);
+            SimpleDateFormat dataformatacao = new SimpleDateFormat("dd/MM/yyyy");
+            Date dataformatada = null;
+            try {
+                dataformatada = (Date) dataformatacao.parse(dia);
+            } catch (ParseException ex) {
+                Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            usuario.setDataNascimento(dataformatada);
+            usuario.setSexo(cursor.getString(5));
+            usuario.setPeso(cursor.getDouble(6));
             lista.add(usuario);
             cursor.moveToNext();
         }

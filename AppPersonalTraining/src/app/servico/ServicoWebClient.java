@@ -4,9 +4,11 @@
  */
 package app.servico;
 
+import app.auxiliares.AtividadeAux;
+import app.auxiliares.PosicaoAux;
 import app.auxiliares.ServicoException;
+import app.auxiliares.UsuarioAux;
 import app.bean.Atividade;
-import app.bean.Movimento;
 import app.bean.Posicao;
 import app.bean.Usuario;
 import com.google.gson.Gson;
@@ -16,6 +18,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -34,11 +38,22 @@ public class ServicoWebClient {
      * @return Movimento
      * @throws ServicoException
      */
-    public Atividade retornaAtividade(Posicao posicao) throws ServicoException {
+    public Atividade retornaAtividade(Posicao posicao) {
+        Atividade atividade = new Atividade();
+        AtividadeAux atividadeAux = new AtividadeAux();
+        PosicaoAux posicaoAux = new PosicaoAux();
+        posicaoAux.converteParaPosicaoAux(posicao);
         Gson gson = new GsonBuilder().create();
-        String json = gson.toJson(posicao);
-        String resp = new String(this.rquesicaoAtividade(json.getBytes(), "/retatividade"));
-        return gson.fromJson(resp, Atividade.class);
+        String json = gson.toJson(posicaoAux);
+        String resp = null;
+        try {
+            resp = new String(this.rquesicaoAtividade(json.getBytes(), "/retatividade"));
+        } catch (ServicoException ex) {
+            Logger.getLogger(ServicoWebClient.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        atividadeAux = gson.fromJson(resp, AtividadeAux.class);
+        atividade = atividadeAux.converteParaAtividade();
+        return atividade;
     }
 
     private byte[] rquesicaoAtividade(byte[] params, String path) throws ServicoException {
@@ -83,10 +98,32 @@ public class ServicoWebClient {
      * @throws ServicoException
      */
     public Usuario retonaUsuario(Usuario usuario) throws ServicoException {
+        UsuarioAux usuarioAux = new UsuarioAux();
+        usuarioAux.converteParaUsuarioAux(usuario);
         Gson gson = new GsonBuilder().create();
-        String json = gson.toJson(usuario);
+        String json = gson.toJson(usuarioAux);
         String resp = new String(this.rquesicaoUsuario(json.getBytes(), "/retusuario"));
-        return gson.fromJson(resp, Usuario.class);
+        usuarioAux = gson.fromJson(resp, UsuarioAux.class);
+        Usuario usuarioRetorno;
+        usuarioRetorno = usuarioAux.converteParaUsuario();
+        return usuarioRetorno;
+    }
+
+    public Usuario criaUsuario(Usuario usuario) {
+        UsuarioAux usuarioAux = new UsuarioAux();
+        usuarioAux.converteParaUsuarioAux(usuario);
+        Gson gson = new GsonBuilder().create();
+        String json = gson.toJson(usuarioAux);
+        String resp = null;
+        try {
+            resp = new String(this.rquesicaoUsuario(json.getBytes(), "/retnovousuario"));
+        } catch (ServicoException ex) {
+            Logger.getLogger(ServicoWebClient.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        usuarioAux = gson.fromJson(resp, UsuarioAux.class);
+        Usuario usuarioRetorno;
+        usuarioRetorno = usuarioAux.converteParaUsuario();
+        return usuarioRetorno;
     }
 
     private byte[] rquesicaoUsuario(byte[] params, String path) throws ServicoException {

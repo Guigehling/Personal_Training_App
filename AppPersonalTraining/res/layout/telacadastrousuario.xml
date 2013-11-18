@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout
+	android:id="@+id/widget0"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:background="#fff5f5f5"
+	xmlns:android="http://schemas.android.com/apk/res/android">
+<TextView
+	android:id="@+id/lbltitulo"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:text="Cadastro de Usuario"
+	android:textSize="22sp"
+	android:textColor="#ff444444"
+	android:layout_x="60dp"
+	android:layout_y="14dp" />
+<TextView
+	android:id="@+id/lblnome"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:text="Nome:"
+	android:textColor="#ff444444"
+	android:layout_x="30dp"
+	android:layout_y="64dp" />
+<EditText
+	android:id="@+id/txtnome"
+	android:layout_width="185dp"
+	android:layout_height="38dp"
+	android:hint="Nome"
+	android:textSize="18sp"
+	android:textColor="#ff444444"
+	android:layout_x="105dp"
+	android:layout_y="61dp" />
+<TextView
+	android:id="@+id/lblemail"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:text="E-mail:"
+	android:textColor="#ff444444"
+	android:layout_x="27dp"
+	android:layout_y="109dp" />
+<EditText
+	android:id="@+id/txtemail"
+	android:layout_width="185dp"
+	android:layout_height="38dp"
+	android:hint="E-mail"
+	android:textSize="18sp"
+	android:textColor="#ff444444"
+	android:layout_x="105dp"
+	android:layout_y="104dp" />
+<TextView
+	android:id="@+id/lblsenha"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:text="Senha:"
+	android:textColor="#ff444444"
+	android:layout_x="25dp"
+	android:layout_y="154dp" />
+<EditText
+	android:id="@+id/txtsenha"
+	android:layout_width="185dp"
+	android:layout_height="38dp"
+	android:hint="Senha"
+	android:textSize="18sp"
+	android:textColor="#ff444444"
+	android:password="true"
+	android:layout_x="104dp"
+	android:layout_y="150dp" />
+<TextView
+	android:id="@+id/lblconfsenha"
+	android:layout_width="61dp"
+	android:layout_height="38dp"
+	android:text="Confirma Senha:"
+	android:textColor="#ff444444"
+	android:layout_x="18dp"
+	android:layout_y="192dp" />
+<EditText
+	android:id="@+id/txtconfsenha"
+	android:layout_width="185dp"
+	android:layout_height="38dp"
+	android:hint="Confirma Senha"
+	android:textSize="18sp"
+	android:textColor="#ff444444"
+	android:password="true"
+	android:layout_x="103dp"
+	android:layout_y="193dp" />
+<TextView
+	android:id="@+id/lbldtnascimento"
+	android:layout_width="79dp"
+	android:layout_height="23dp"
+	android:text="Data Nasc:"
+	android:textColor="#ff444444"
+	android:layout_x="13dp"
+	android:layout_y="241dp" />
+<EditText
+	android:id="@+id/txtdtnascimento"
+	android:layout_width="185dp"
+	android:layout_height="38dp"
+	android:hint="dd/mm/aaaa"
+	android:textSize="18sp"
+	android:textColor="#ff444444"
+	android:layout_x="103dp"
+	android:layout_y="237dp" />
+<TextView
+	android:id="@+id/lblpeso"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:text="Peso:"
+	android:textColor="#ff444444"
+	android:layout_x="26dp"
+	android:layout_y="331dp" />
+<EditText
+	android:id="@+id/txtpeso"
+	android:layout_width="185dp"
+	android:layout_height="38dp"
+	android:hint="0.0"
+	android:textSize="18sp"
+	android:textColor="#ff444444"
+	android:layout_x="101dp"
+	android:layout_y="325dp" />
+<Button
+	android:id="@+id/btsalvar"
+	android:layout_width="80dp"
+	android:layout_height="wrap_content"
+	android:text="Salvar"
+        android:onClick="onClickbtSalvar"
+	android:layout_x="45dp"
+	android:layout_y="372dp" />
+<Button
+	android:id="@+id/btCancela"
+	android:layout_width="89dp"
+	android:layout_height="wrap_content"
+	android:text="Cancela"
+        android:onClick="onClickbtCancela"
+	android:layout_x="178dp"
+	android:layout_y="371dp" />
+<EditText
+	android:id="@+id/txtsexo"
+	android:layout_width="185dp"
+	android:layout_height="38dp"
+	android:hint="Sexo"
+	android:textSize="18sp"
+	android:layout_x="103dp"
+	android:layout_y="279dp" />
+<TextView
+	android:id="@+id/lblsexo"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:text="Sexo:"
+	android:textColor="#ff444444"
+	android:layout_x="27dp"
+	android:layout_y="284dp" />
+</AbsoluteLayout>

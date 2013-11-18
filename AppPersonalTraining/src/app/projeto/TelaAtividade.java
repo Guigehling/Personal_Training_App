@@ -60,7 +60,7 @@ public class TelaAtividade extends Activity {
         btStop = (ImageButton) findViewById(R.id.btstop);
         txtDistancia = (TextView) findViewById(R.id.txtdistancia);
         txtVelocidade = (TextView) findViewById(R.id.txtvelocidade);
-//        ativaGPS();
+        ativaGPS();
     }
 
     public void onClickBtStart(View v) {
@@ -101,13 +101,10 @@ public class TelaAtividade extends Activity {
                 posicaoAtual.setDia(new Date());
                 posicaoAtual.setHora(new Time(new Date().getTime()));
                 posicaoAtual.setUsuario_id(usuarioLogado.getId());
-                try {
-                    atividadeAtual = servico.retornaAtividade(posicaoAtual);
-                    txtDistancia.setText(String.valueOf(atividadeAtual.getDistancia()));
-                    txtVelocidade.setText(String.valueOf(atividadeAtual.getVelocidade()));
-                } catch (ServicoException ex) {
-                    Logger.getLogger(TelaAtividade.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                atividadeAtual = servico.retornaAtividade(posicaoAtual);
+                txtDistancia.setText(String.valueOf(atividadeAtual.getDistancia()));
+                txtVelocidade.setText(String.valueOf(atividadeAtual.getVelocidade()));
+
             }
 
             public void onStatusChanged(String provider, int status, Bundle extras) {

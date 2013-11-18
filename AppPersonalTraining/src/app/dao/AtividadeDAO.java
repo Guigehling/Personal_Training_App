@@ -17,6 +17,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -45,7 +47,7 @@ public class AtividadeDAO {
         conn.close();
     }
 
-    public Atividade retrive() throws ParseException {
+    public Atividade retrive() {
         Atividade ativi = new Atividade();
         BancoDados bd = new BancoDados(context);
         SQLiteDatabase conn = bd.getWritableDatabase();
@@ -56,11 +58,21 @@ public class AtividadeDAO {
             atividade.setId(cursor.getInt(0));
             String dia = cursor.getString(1);
             SimpleDateFormat dataformatacao = new SimpleDateFormat("dd/MM/yyyy");
-            Date dataformatada = (Date) dataformatacao.parse(dia);
+            Date dataformatada = null;
+            try {
+                dataformatada = (Date) dataformatacao.parse(dia);
+            } catch (ParseException ex) {
+                Logger.getLogger(AtividadeDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
             atividade.setDia(dataformatada);
             String tempo = cursor.getString(2);
             SimpleDateFormat tempoformatacao = new SimpleDateFormat("HH:mm");
-            Time tempoformatada = (Time) tempoformatacao.parse(tempo);
+            Time tempoformatada = null;
+            try {
+                tempoformatada = (Time) tempoformatacao.parse(tempo);
+            } catch (ParseException ex) {
+                Logger.getLogger(AtividadeDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
             atividade.setTempo(tempoformatada);
             atividade.setUsuario_id(cursor.getInt(3));
             atividade.setDistancia(cursor.getDouble(4));
@@ -98,7 +110,7 @@ public class AtividadeDAO {
         conn.delete("atividade", null, null);
     }
 
-    public List<Atividade> listAll() throws ParseException {
+    public List<Atividade> listAll() {
         List<Atividade> lista = new ArrayList<Atividade>();
         BancoDados bd = new BancoDados(context);
         SQLiteDatabase conn = bd.getWritableDatabase();
@@ -109,11 +121,21 @@ public class AtividadeDAO {
             atividade.setId(cursor.getInt(0));
             String dia = cursor.getString(1);
             SimpleDateFormat dataformatacao = new SimpleDateFormat("dd/MM/yyyy");
-            Date dataformatada = (Date) dataformatacao.parse(dia);
+            Date dataformatada = null;
+            try {
+                dataformatada = (Date) dataformatacao.parse(dia);
+            } catch (ParseException ex) {
+                Logger.getLogger(AtividadeDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
             atividade.setDia(dataformatada);
             String tempo = cursor.getString(2);
             SimpleDateFormat tempoformatacao = new SimpleDateFormat("HH:mm");
-            Time tempoformatada = (Time) tempoformatacao.parse(tempo);
+            Time tempoformatada = null;
+            try {
+                tempoformatada = (Time) tempoformatacao.parse(tempo);
+            } catch (ParseException ex) {
+                Logger.getLogger(AtividadeDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
             atividade.setTempo(tempoformatada);
             atividade.setUsuario_id(cursor.getInt(3));
             atividade.setDistancia(cursor.getDouble(4));

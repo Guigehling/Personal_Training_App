@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:text="0.0 Km"
         android:textSize="20sp"
-        android:textColor="#ff0066ff"
+        android:textColor="#444444"
         android:layout_x="162dp"
         android:layout_y="74dp" />
     <TextView
@@ -49,7 +49,7 @@
         android:text="Distancia:"
         android:textSize="20sp"
         android:textStyle="italic"
-        android:textColor="#ff0066ff"
+        android:textColor="#444444"
         android:layout_x="46dp"
         android:layout_y="72dp" />
     <TextView
@@ -59,7 +59,7 @@
         android:text="Tempo:"
         android:textSize="20sp"
         android:textStyle="italic"
-        android:textColor="#ff0066ff"
+        android:textColor="#444444"
         android:layout_x="67dp"
         android:layout_y="123dp" />
     <TextView
@@ -69,7 +69,7 @@
         android:text="Velocidade:"
         android:textStyle="italic"
         android:textSize="20sp"
-        android:textColor="#ff0066cc"
+        android:textColor="#444444"
         android:layout_x="34dp"
         android:layout_y="170dp" />
     <Chronometer 
@@ -79,7 +79,7 @@
         android:text="cronometro"
         android:textSize="20sp"
         android:format="%s"
-        android:textColor="#ff0066cc"
+        android:textColor="#444444"
         android:layout_x="162dp"
         android:layout_y="125dp" />
     <TextView
@@ -88,7 +88,7 @@
         android:layout_height="wrap_content"
         android:text="0 Km/s"
         android:textSize="20sp"
-        android:textColor="#ff0066cc"
+        android:textColor="#444444"
         android:layout_x="163dp"
         android:layout_y="172dp" />
     <TextView
@@ -97,7 +97,7 @@
         android:layout_height="25dp"
         android:text="Atividade"
         android:textSize="22sp"
-        android:textColor="#ff0066cc"
+        android:textColor="#444444"
         android:layout_x="104dp"
         android:layout_y="21dp" />
 </AbsoluteLayout>

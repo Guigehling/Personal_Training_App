@@ -2,18 +2,23 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package app.bean;
+package app.auxiliares;
 
+import app.bean.Usuario;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Guilherme Gehling
  */
-public class Usuario implements Serializable {
+public class UsuarioAux implements Serializable {
 
     @Expose
     @SerializedName("id")
@@ -29,7 +34,7 @@ public class Usuario implements Serializable {
     private String senha;
     @Expose
     @SerializedName("dataNascimento")
-    private Date dataNascimento;
+    private String dataNascimento;
     @Expose
     @SerializedName("sexo")
     private String sexo;
@@ -37,10 +42,10 @@ public class Usuario implements Serializable {
     @SerializedName("peso")
     private double peso;
 
-    public Usuario() {
+    public UsuarioAux() {
     }
 
-    public Usuario(int id, String nome, String email, String senha, Date dataNascimento, String sexo, double peso) {
+    public UsuarioAux(int id, String nome, String email, String senha, String dataNascimento, String sexo, double peso) {
         this.id = id;
         this.nome = nome;
         this.email = email;
@@ -82,11 +87,11 @@ public class Usuario implements Serializable {
         this.senha = senha;
     }
 
-    public Date getDataNascimento() {
+    public String getDataNascimento() {
         return dataNascimento;
     }
 
-    public void setDataNascimento(Date dataNascimento) {
+    public void setDataNascimento(String dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
 
@@ -106,6 +111,46 @@ public class Usuario implements Serializable {
         this.peso = peso;
     }
 
+    public void converteParaUsuarioAux(Usuario usuario) {
+        this.id = usuario.getId();
+        this.nome = usuario.getNome();
+        this.email = usuario.getEmail();
+        this.senha = usuario.getSenha();
+        if (usuario.getDataNascimento() != null) {
+            SimpleDateFormat dataformatacao = new SimpleDateFormat("dd/MM/yyyy");
+            String dataTexto = dataformatacao.format(usuario.getDataNascimento());
+            this.dataNascimento = dataTexto;
+        } else {
+            this.dataNascimento = null;
+        }
+        this.sexo = usuario.getSexo();
+        this.peso = usuario.getPeso();
+    }
+
+    public Usuario converteParaUsuario() {
+        Usuario usuario = new Usuario();
+        usuario.setId(this.id);
+        usuario.setNome(this.nome);
+        usuario.setEmail(this.email);
+        usuario.setSenha(this.senha);
+        if (this.dataNascimento != null) {
+            String dia = this.dataNascimento;
+            SimpleDateFormat dataformatacao = new SimpleDateFormat("dd/MM/yyyy");
+            Date dataData = null;
+            try {
+                dataData = (Date) dataformatacao.parse(dia);
+            } catch (ParseException ex) {
+                Logger.getLogger(UsuarioAux.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            usuario.setDataNascimento(dataData);
+        } else {
+            usuario.setDataNascimento(null);
+        }
+        usuario.setSexo(this.sexo);
+        usuario.setPeso(this.peso);
+        return usuario;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
@@ -121,7 +166,7 @@ public class Usuario implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Usuario other = (Usuario) obj;
+        final UsuarioAux other = (UsuarioAux) obj;
         if (this.id != other.id) {
             return false;
         }
