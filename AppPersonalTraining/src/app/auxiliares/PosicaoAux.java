@@ -48,6 +48,17 @@ public class PosicaoAux {
     public PosicaoAux() {
     }
 
+    public PosicaoAux(int id, String latitude, String longitude, String dia, String hora, int usuario_id, int atividade_id, boolean ultimaPosicao) {
+        this.id = id;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.dia = dia;
+        this.hora = hora;
+        this.usuario_id = usuario_id;
+        this.atividade_id = atividade_id;
+        this.ultimaPosicao = ultimaPosicao;
+    }
+
     public int getId() {
         return id;
     }
@@ -109,17 +120,6 @@ public class PosicaoAux {
     }
 
     public void setUltimaPosicao(boolean ultimaPosicao) {
-        this.ultimaPosicao = ultimaPosicao;
-    }
-
-    public PosicaoAux(int id, String latitude, String longitude, String dia, String hora, int usuario_id, int atividade_id, boolean ultimaPosicao) {
-        this.id = id;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.dia = dia;
-        this.hora = hora;
-        this.usuario_id = usuario_id;
-        this.atividade_id = atividade_id;
         this.ultimaPosicao = ultimaPosicao;
     }
 
