@@ -36,12 +36,12 @@ public class PosicaoAux implements Serializable {
     private String hora;
     private int usuario_id;
     private int atividade_id;
-    private Boolean ultimaPosicao;
+    private boolean ultimaPosicao;
 
     public PosicaoAux() {
     }
 
-    public PosicaoAux(int id, String latitude, String longitude, String dia, String hora, int usuario_id, int atividade_id, Boolean ultimaPosicao) {
+    public PosicaoAux(int id, String latitude, String longitude, String dia, String hora, int usuario_id, int atividade_id, boolean ultimaPosicao) {
         this.id = id;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -108,11 +108,11 @@ public class PosicaoAux implements Serializable {
         this.atividade_id = atividade_id;
     }
 
-    public Boolean getUltimaPosicao() {
+    public boolean getUltimaPosicao() {
         return ultimaPosicao;
     }
 
-    public void setUltimaPosicao(Boolean ultimaPosicao) {
+    public void setUltimaPosicao(boolean ultimaPosicao) {
         this.ultimaPosicao = ultimaPosicao;
     }
 

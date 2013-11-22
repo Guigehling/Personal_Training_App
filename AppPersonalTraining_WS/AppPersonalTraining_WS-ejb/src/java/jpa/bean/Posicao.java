@@ -54,12 +54,12 @@ public class Posicao implements Serializable {
     @OneToOne
     @JoinColumn(name = "atividade_id", referencedColumnName = "id")
     private Atividade atividade;
-    private Boolean ultimaPosicao;
+    private boolean ultimaPosicao;
 
     public Posicao() {
     }
 
-    public Posicao(int id, String latitude, String longitude, Date dia, Time hora, Usuario usuario, Atividade atividade, Boolean ultimaPosicao) {
+    public Posicao(int id, String latitude, String longitude, Date dia, Time hora, Usuario usuario, Atividade atividade, boolean ultimaPosicao) {
         this.id = id;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -126,11 +126,11 @@ public class Posicao implements Serializable {
         this.atividade = atividade;
     }
 
-    public Boolean getUltimaPosicao() {
+    public boolean getUltimaPosicao() {
         return ultimaPosicao;
     }
 
-    public void setUltimaPosicao(Boolean ultimaPosicao) {
+    public void setUltimaPosicao(boolean ultimaPosicao) {
         this.ultimaPosicao = ultimaPosicao;
     }
 
