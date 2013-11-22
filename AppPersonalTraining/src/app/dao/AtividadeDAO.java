@@ -42,7 +42,11 @@ public class AtividadeDAO {
         valores.put("usuario_id", atividade.getUsuario_id());
         valores.put("distancia", atividade.getDistancia());
         valores.put("velocidade", atividade.getVelocidade());
-        valores.put("concluida", atividade.getConcluida());
+        if (atividade.getConcluida()) {
+            valores.put("concluida", 1);
+        } else {
+            valores.put("concluida", 0);
+        }
         conn.insert("atividade", null, valores);
         conn.close();
     }
@@ -77,7 +81,11 @@ public class AtividadeDAO {
             atividade.setUsuario_id(cursor.getInt(3));
             atividade.setDistancia(cursor.getDouble(4));
             atividade.setVelocidade(cursor.getDouble(5));
-            atividade.setConcluida(cursor.getInt(6));
+            if (cursor.getInt(6) == 1) {
+                atividade.setConcluida(true);
+            } else {
+                atividade.setConcluida(false);
+            }
             ativi = atividade;
             cursor.moveToNext();
         }
@@ -99,7 +107,11 @@ public class AtividadeDAO {
         valores.put("usuario_id", atividade.getUsuario_id());
         valores.put("distancia", atividade.getDistancia());
         valores.put("velocidade", atividade.getVelocidade());
-        valores.put("concluida", atividade.getConcluida());
+        if (atividade.getConcluida()) {
+            valores.put("concluida", 1);
+        } else {
+            valores.put("concluida", 0);
+        }
         conn.update("atividade", valores, null, null);
         conn.close();
     }
@@ -140,7 +152,11 @@ public class AtividadeDAO {
             atividade.setUsuario_id(cursor.getInt(3));
             atividade.setDistancia(cursor.getDouble(4));
             atividade.setVelocidade(cursor.getDouble(5));
-            atividade.setConcluida(cursor.getInt(6));
+            if (cursor.getInt(6) == 1) {
+                atividade.setConcluida(true);
+            } else {
+                atividade.setConcluida(false);
+            }
             lista.add(atividade);
             cursor.moveToNext();
         }

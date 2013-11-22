@@ -41,18 +41,11 @@ public class PosicaoAux {
     @Expose
     @SerializedName("atividade_id")
     private int atividade_id;
+    @Expose
+    @SerializedName("ultimaposicao")
+    private boolean ultimaPosicao;
 
     public PosicaoAux() {
-    }
-
-    public PosicaoAux(int id, String latitude, String longitude, String dia, String hora, int usuario_id, int atividade_id) {
-        this.id = id;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.dia = dia;
-        this.hora = hora;
-        this.usuario_id = usuario_id;
-        this.atividade_id = atividade_id;
     }
 
     public int getId() {
@@ -111,6 +104,25 @@ public class PosicaoAux {
         this.atividade_id = atividade_id;
     }
 
+    public boolean getUltimaPosicao() {
+        return ultimaPosicao;
+    }
+
+    public void setUltimaPosicao(boolean ultimaPosicao) {
+        this.ultimaPosicao = ultimaPosicao;
+    }
+
+    public PosicaoAux(int id, String latitude, String longitude, String dia, String hora, int usuario_id, int atividade_id, boolean ultimaPosicao) {
+        this.id = id;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.dia = dia;
+        this.hora = hora;
+        this.usuario_id = usuario_id;
+        this.atividade_id = atividade_id;
+        this.ultimaPosicao = ultimaPosicao;
+    }
+
     public void converteParaPosicaoAux(Posicao posicao) {
         this.id = posicao.getId();
         this.latitude = posicao.getLatitude();
@@ -131,6 +143,7 @@ public class PosicaoAux {
         }
         this.usuario_id = posicao.getUsuario_id();
         this.atividade_id = posicao.getAtividade_id();
+        this.ultimaPosicao = posicao.getUltimaPosicao();
     }
 
     public Posicao converteParaPosicao() {
@@ -166,6 +179,7 @@ public class PosicaoAux {
         }
         posicao.setAtividade_id(this.atividade_id);
         posicao.setUsuario_id(this.usuario_id);
+        posicao.setUltimaPosicao(this.ultimaPosicao);
         return posicao;
     }
 
@@ -193,6 +207,6 @@ public class PosicaoAux {
 
     @Override
     public String toString() {
-        return "PosicaoAux{" + "id=" + id + ", latitude=" + latitude + ", longitude=" + longitude + ", dia=" + dia + ", hora=" + hora + ", usuario_id=" + usuario_id + ", atividade_id=" + atividade_id + '}';
+        return "PosicaoAux{" + "id=" + id + ", latitude=" + latitude + ", longitude=" + longitude + ", dia=" + dia + ", hora=" + hora + ", usuario_id=" + usuario_id + ", atividade_id=" + atividade_id + ", ultimaPosicao=" + ultimaPosicao + '}';
     }
 }

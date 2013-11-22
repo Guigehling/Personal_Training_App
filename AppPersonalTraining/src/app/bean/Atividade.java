@@ -36,12 +36,12 @@ public class Atividade implements Serializable {
     private double velocidade;
     @Expose
     @SerializedName("concluida")
-    private int concluida;
+    private boolean concluida;
 
     public Atividade() {
     }
 
-    public Atividade(int id, Date dia, Time tempo, int usuario_id, double distancia, double velocidade, int concluida) {
+    public Atividade(int id, Date dia, Time tempo, int usuario_id, double distancia, double velocidade, boolean concluida) {
         this.id = id;
         this.dia = dia;
         this.tempo = tempo;
@@ -99,11 +99,11 @@ public class Atividade implements Serializable {
         this.velocidade = velocidade;
     }
 
-    public int getConcluida() {
+    public boolean getConcluida() {
         return concluida;
     }
 
-    public void setConcluida(int concluida) {
+    public void setConcluida(boolean concluida) {
         this.concluida = concluida;
     }
 

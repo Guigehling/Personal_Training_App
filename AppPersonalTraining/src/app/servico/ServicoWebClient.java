@@ -38,6 +38,78 @@ public class ServicoWebClient {
      * @return Movimento
      * @throws ServicoException
      */
+    public Atividade criaAtividade(Atividade atividade) {
+        AtividadeAux atividadeAux = new AtividadeAux();
+        atividadeAux.converteParaAtividadeAux(atividade);
+        Gson gson = new GsonBuilder().create();
+        String json = gson.toJson(atividadeAux);
+        String resp = null;
+        try {
+            resp = new String(this.requesicaoAtividade(json.getBytes(), "/novaatividade"));
+        } catch (ServicoException ex) {
+            Logger.getLogger(ServicoWebClient.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        atividadeAux = gson.fromJson(resp, AtividadeAux.class);
+        atividade = atividadeAux.converteParaAtividade();
+        return atividade;
+    }
+
+    /**
+     * Este metodo é o responsavel por solicitar a conexao com o web server e
+     * montar o arquivo a ser enviado.
+     *
+     * @param Posicao
+     * @return Movimento
+     * @throws ServicoException
+     */
+    public Atividade atualizaAtividade(Atividade atividade) {
+        AtividadeAux atividadeAux = new AtividadeAux();
+        atividadeAux.converteParaAtividadeAux(atividade);
+        Gson gson = new GsonBuilder().create();
+        String json = gson.toJson(atividadeAux);
+        String resp = null;
+        try {
+            resp = new String(this.requesicaoAtividade(json.getBytes(), "/atualizaatividade"));
+        } catch (ServicoException ex) {
+            Logger.getLogger(ServicoWebClient.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        atividadeAux = gson.fromJson(resp, AtividadeAux.class);
+        atividade = atividadeAux.converteParaAtividade();
+        return atividade;
+    }
+
+    /**
+     * Este metodo é o responsavel por solicitar a conexao com o web server e
+     * montar o arquivo a ser enviado.
+     *
+     * @param Posicao
+     * @return Movimento
+     * @throws ServicoException
+     */
+    public Posicao novaPosicao(Posicao posicao) {
+        PosicaoAux posicaoAux = new PosicaoAux();
+        posicaoAux.converteParaPosicaoAux(posicao);
+        Gson gson = new GsonBuilder().create();
+        String json = gson.toJson(posicaoAux);
+        String resp = null;
+        try {
+            resp = new String(this.requesicaoAtividade(json.getBytes(), "/novaposicao"));
+        } catch (ServicoException ex) {
+            Logger.getLogger(ServicoWebClient.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        posicaoAux = gson.fromJson(resp, PosicaoAux.class);
+        posicao = posicaoAux.converteParaPosicao();
+        return posicao;
+    }
+
+    /**
+     * Este metodo é o responsavel por solicitar a conexao com o web server e
+     * montar o arquivo a ser enviado.
+     *
+     * @param Posicao
+     * @return Movimento
+     * @throws ServicoException
+     */
     public Atividade retornaAtividade(Posicao posicao) {
         Atividade atividade = new Atividade();
         AtividadeAux atividadeAux = new AtividadeAux();
@@ -47,7 +119,7 @@ public class ServicoWebClient {
         String json = gson.toJson(posicaoAux);
         String resp = null;
         try {
-            resp = new String(this.rquesicaoAtividade(json.getBytes(), "/retatividade"));
+            resp = new String(this.requesicaoAtividade(json.getBytes(), "/retatividade"));
         } catch (ServicoException ex) {
             Logger.getLogger(ServicoWebClient.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -56,7 +128,7 @@ public class ServicoWebClient {
         return atividade;
     }
 
-    private byte[] rquesicaoAtividade(byte[] params, String path) throws ServicoException {
+    private byte[] requesicaoAtividade(byte[] params, String path) throws ServicoException {
         try {
             URL urlObj = new URL(ServicoWebClient.URL + path);
             HttpURLConnection httpConn = (HttpURLConnection) urlObj.openConnection();

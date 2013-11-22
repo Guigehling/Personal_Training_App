@@ -18,13 +18,15 @@ import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-import app.auxiliares.ServicoException;
 import app.bean.Atividade;
 import app.bean.Posicao;
 import app.bean.Usuario;
 import app.dao.UsuarioDAO;
 import app.servico.ServicoWebClient;
 import java.sql.Time;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -60,13 +62,24 @@ public class TelaAtividade extends Activity {
         btStop = (ImageButton) findViewById(R.id.btstop);
         txtDistancia = (TextView) findViewById(R.id.txtdistancia);
         txtVelocidade = (TextView) findViewById(R.id.txtvelocidade);
-        ativaGPS();
     }
 
     public void onClickBtStart(View v) {
         btStart.setVisibility(View.INVISIBLE);
         btPause.setVisibility(View.VISIBLE);
         iniciaCronometro();
+        atividadeAtual.setDia(new Date());
+        Time datahora = null;
+        DateFormat formato = new SimpleDateFormat("HH:mm");
+        try {
+            datahora = new java.sql.Time(formato.parse(cronometro.getText().toString()).getTime());
+        } catch (ParseException ex) {
+            Logger.getLogger(TelaAtividade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        atividadeAtual.setTempo(datahora);
+        atividadeAtual.setUsuario_id(usuarioLogado.getId());
+        atividadeAtual.setConcluida(false);
+        atividadeAtual = servico.criaAtividade(atividadeAtual);
         ativaGPS();
     }
 
@@ -101,9 +114,15 @@ public class TelaAtividade extends Activity {
                 posicaoAtual.setDia(new Date());
                 posicaoAtual.setHora(new Time(new Date().getTime()));
                 posicaoAtual.setUsuario_id(usuarioLogado.getId());
-                atividadeAtual = servico.retornaAtividade(posicaoAtual);
-                txtDistancia.setText(String.valueOf(atividadeAtual.getDistancia()));
-                txtVelocidade.setText(String.valueOf(atividadeAtual.getVelocidade()));
+                posicaoAtual.setAtividade_id(atividadeAtual.getId());
+                posicaoAtual.setUltimaPosicao(true);
+                posicaoAtual = servico.novaPosicao(posicaoAtual);
+                atividadeAtual = servico.atualizaAtividade(atividadeAtual);
+
+
+                //atividadeAtual = servico.retornaAtividade(posicaoAtual);
+                //txtDistancia.setText(String.valueOf(atividadeAtual.getDistancia()));
+                //txtVelocidade.setText(String.valueOf(atividadeAtual.getVelocidade()));
 
             }
 

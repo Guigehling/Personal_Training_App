@@ -44,6 +44,11 @@ public class PosicaoDAO {
         valores.put("hora", horaformatada);
         valores.put("usuario_id", posicao.getUsuario_id());
         valores.put("atividade_id", posicao.getAtividade_id());
+        if (posicao.getUltimaPosicao()) {
+            valores.put("ultimaposicao", 1);
+        } else {
+            valores.put("ultimaposicao", 0);
+        }
         conn.insert("posicao", null, valores);
         conn.close();
     }
@@ -69,6 +74,11 @@ public class PosicaoDAO {
             posicao.setHora(horaformatada);
             posicao.setUsuario_id(cursor.getInt(5));
             posicao.setAtividade_id(cursor.getInt(6));
+            if (cursor.getInt(7) == 1) {
+                posicao.setUltimaPosicao(true);
+            } else {
+                posicao.setUltimaPosicao(false);
+            }
             posi = posicao;
             cursor.moveToNext();
         }
@@ -91,6 +101,11 @@ public class PosicaoDAO {
         valores.put("hora", horaformatada);
         valores.put("usuario_id", posicao.getUsuario_id());
         valores.put("atividade_id", posicao.getAtividade_id());
+        if (posicao.getUltimaPosicao()) {
+            valores.put("ultimaposicao", 1);
+        } else {
+            valores.put("ultimaposicao", 0);
+        }
         conn.update("posicao", valores, null, null);
         conn.close();
     }
@@ -122,6 +137,11 @@ public class PosicaoDAO {
             posicao.setHora(horaformatada);
             posicao.setUsuario_id(cursor.getInt(5));
             posicao.setAtividade_id(cursor.getInt(6));
+            if (cursor.getInt(7) == 1) {
+                posicao.setUltimaPosicao(true);
+            } else {
+                posicao.setUltimaPosicao(false);
+            }
             lista.add(posicao);
             cursor.moveToNext();
         }

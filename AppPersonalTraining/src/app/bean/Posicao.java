@@ -37,11 +37,14 @@ public class Posicao implements Serializable {
     @Expose
     @SerializedName("atividade_id")
     private int atividade_id;
+    @Expose
+    @SerializedName("ultimaposicao")
+    private boolean ultimaPosicao;
 
     public Posicao() {
     }
 
-    public Posicao(int id, String latitude, String longitude, Date dia, Time hora, int usuario_id, int atividade_id) {
+    public Posicao(int id, String latitude, String longitude, Date dia, Time hora, int usuario_id, int atividade_id, boolean ultimaPosicao) {
         this.id = id;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -49,6 +52,7 @@ public class Posicao implements Serializable {
         this.hora = hora;
         this.usuario_id = usuario_id;
         this.atividade_id = atividade_id;
+        this.ultimaPosicao = ultimaPosicao;
     }
 
     public int getId() {
@@ -107,10 +111,18 @@ public class Posicao implements Serializable {
         this.atividade_id = atividade_id;
     }
 
+    public boolean getUltimaPosicao() {
+        return ultimaPosicao;
+    }
+
+    public void setUltimaPosicao(boolean ultimaPosicao) {
+        this.ultimaPosicao = ultimaPosicao;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 61 * hash + this.id;
+        int hash = 3;
+        hash = 89 * hash + this.id;
         return hash;
     }
 
@@ -131,6 +143,6 @@ public class Posicao implements Serializable {
 
     @Override
     public String toString() {
-        return "Posicao{" + "id=" + id + ", latitude=" + latitude + ", longitude=" + longitude + ", dia=" + dia + ", hora=" + hora + ", usuario_id=" + usuario_id + ", atividade_id=" + atividade_id + '}';
+        return "Posicao{" + "id=" + id + ", latitude=" + latitude + ", longitude=" + longitude + ", dia=" + dia + ", hora=" + hora + ", usuario_id=" + usuario_id + ", atividade_id=" + atividade_id + ", ultimaPosicao=" + ultimaPosicao + '}';
     }
 }
