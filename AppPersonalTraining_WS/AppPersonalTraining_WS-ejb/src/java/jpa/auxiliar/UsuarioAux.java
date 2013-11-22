@@ -120,15 +120,18 @@ public class UsuarioAux implements Serializable {
         usuario.setNome(this.nome);
         usuario.setEmail(this.email);
         usuario.setSenha(this.senha);
-        String dia = this.dataNascimento;
-        SimpleDateFormat dataformatacao = new SimpleDateFormat("dd/MM/yyyy");
-        Date dataData = null;
-        try {
-            dataData = (Date) dataformatacao.parse(dia);
-        } catch (ParseException ex) {
-            Logger.getLogger(UsuarioAux.class.getName()).log(Level.SEVERE, null, ex);
+        if (this.dataNascimento != null) {
+            SimpleDateFormat dataformatacao = new SimpleDateFormat("dd/MM/yyyy");
+            Date dataData = null;
+            try {
+                dataData = (Date) dataformatacao.parse(this.dataNascimento);
+            } catch (ParseException ex) {
+                Logger.getLogger(UsuarioAux.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            usuario.setDataNascimento(dataData);
+        } else {
+            usuario.setDataNascimento(null);
         }
-        usuario.setDataNascimento(dataData);
         usuario.setSexo(this.sexo);
         usuario.setPeso(this.peso);
         return usuario;

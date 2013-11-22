@@ -32,4 +32,6 @@ public interface PosicaoDAORemote {
     List<Posicao> achaPorAtividade(Atividade atividade);
 
     List<Posicao> achaPorUsuario(Usuario usuario);
+
+    Posicao achaUltimaPosicao(Posicao posicao);
 }

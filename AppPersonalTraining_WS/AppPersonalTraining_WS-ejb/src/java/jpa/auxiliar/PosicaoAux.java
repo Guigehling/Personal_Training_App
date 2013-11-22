@@ -6,12 +6,12 @@ package jpa.auxiliar;
 
 import java.io.Serializable;
 import java.sql.Time;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.EJB;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -29,9 +29,6 @@ import jpa.ejb.dao.UsuarioDAORemote;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PosicaoAux implements Serializable {
 
-    @EJB
-    UsuarioDAORemote usuarioDAORemote;
-    AtividadeDAORemote atividadeDAORemote;
     private int id;
     private String latitude;
     private String longitude;
@@ -39,11 +36,12 @@ public class PosicaoAux implements Serializable {
     private String hora;
     private int usuario_id;
     private int atividade_id;
+    private Boolean ultimaPosicao;
 
     public PosicaoAux() {
     }
 
-    public PosicaoAux(int id, String latitude, String longitude, String dia, String hora, int usuario_id, int atividade_id) {
+    public PosicaoAux(int id, String latitude, String longitude, String dia, String hora, int usuario_id, int atividade_id, Boolean ultimaPosicao) {
         this.id = id;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -51,6 +49,7 @@ public class PosicaoAux implements Serializable {
         this.hora = hora;
         this.usuario_id = usuario_id;
         this.atividade_id = atividade_id;
+        this.ultimaPosicao = ultimaPosicao;
     }
 
     public int getId() {
@@ -109,6 +108,14 @@ public class PosicaoAux implements Serializable {
         this.atividade_id = atividade_id;
     }
 
+    public Boolean getUltimaPosicao() {
+        return ultimaPosicao;
+    }
+
+    public void setUltimaPosicao(Boolean ultimaPosicao) {
+        this.ultimaPosicao = ultimaPosicao;
+    }
+
     public void converteParaPosicaoAux(Posicao posicao) {
         this.id = posicao.getId();
         this.latitude = posicao.getLatitude();
@@ -129,9 +136,10 @@ public class PosicaoAux implements Serializable {
         }
         this.usuario_id = posicao.getUsuario().getId();
         this.atividade_id = posicao.getAtividade().getId();
+        this.ultimaPosicao = posicao.getUltimaPosicao();
     }
 
-    public Posicao converteParaPosicao() {
+    public Posicao converteParaPosicao(UsuarioDAORemote usuarioDAORemote, AtividadeDAORemote atividadeDAORemote) {
         Posicao posicao = new Posicao();
         posicao.setId(this.id);
         posicao.setLatitude(this.latitude);
@@ -150,24 +158,26 @@ public class PosicaoAux implements Serializable {
             posicao.setDia(null);
         }
         if (this.hora != null) {
-            String horario = this.dia;
-            SimpleDateFormat dataformatacao = new SimpleDateFormat("HH:mm");
             Time datahora = null;
+            DateFormat formato = new SimpleDateFormat("HH:mm");
             try {
-                datahora = (Time) dataformatacao.parse(horario);
+                datahora = new java.sql.Time(formato.parse(this.hora).getTime());
             } catch (ParseException ex) {
-                Logger.getLogger(UsuarioAux.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(PosicaoAux.class.getName()).log(Level.SEVERE, null, ex);
             }
             posicao.setHora(datahora);
         } else {
             posicao.setHora(null);
         }
         Atividade atividade = new Atividade();
+        atividade.setId(this.atividade_id);
         atividade = atividadeDAORemote.retrive(atividade);
         posicao.setAtividade(atividade);
         Usuario usuario = new Usuario();
+        usuario.setId(this.usuario_id);
         usuario = usuarioDAORemote.retrive(usuario);
         posicao.setUsuario(usuario);
+        posicao.setUltimaPosicao(this.ultimaPosicao);
         return posicao;
     }
 
@@ -195,6 +205,6 @@ public class PosicaoAux implements Serializable {
 
     @Override
     public String toString() {
-        return "PosicaoAux{" + "id=" + id + ", latitude=" + latitude + ", longitude=" + longitude + ", dia=" + dia + ", hora=" + hora + ", usuario_id=" + usuario_id + ", atividade_id=" + atividade_id + '}';
+        return "PosicaoAux{" + "id=" + id + ", latitude=" + latitude + ", longitude=" + longitude + ", dia=" + dia + ", hora=" + hora + ", usuario_id=" + usuario_id + ", atividade_id=" + atividade_id + ", ultimaPosicao=" + ultimaPosicao + '}';
     }
 }

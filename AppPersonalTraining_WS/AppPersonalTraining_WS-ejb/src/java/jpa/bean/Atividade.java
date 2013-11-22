@@ -12,8 +12,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -45,7 +47,8 @@ public class Atividade implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date dia;
     private Time tempo;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne//(cascade = CascadeType.ALL)
+    @JoinColumn(name = "usuario_id", referencedColumnName = "id")
     private Usuario usuario;
     private double distancia, velocidade;
     private boolean concluida;

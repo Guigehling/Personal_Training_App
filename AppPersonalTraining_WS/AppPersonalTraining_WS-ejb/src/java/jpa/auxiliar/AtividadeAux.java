@@ -6,17 +6,18 @@ package jpa.auxiliar;
 
 import java.io.Serializable;
 import java.sql.Time;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.EJB;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import jpa.bean.Atividade;
 import jpa.bean.Usuario;
+import jpa.ejb.dao.UsuarioDAO;
 import jpa.ejb.dao.UsuarioDAORemote;
 
 /**
@@ -27,8 +28,6 @@ import jpa.ejb.dao.UsuarioDAORemote;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class AtividadeAux implements Serializable {
 
-    @EJB
-    UsuarioDAORemote usuarioDAORemote;
     private int id;
     private String dia;
     private String tempo;
@@ -132,11 +131,11 @@ public class AtividadeAux implements Serializable {
         }
     }
 
-    public Atividade converteParaAtividade() {
+    public Atividade converteParaAtividade(UsuarioDAORemote usuarioDAORemote) {
         Atividade atividade = new Atividade();
         atividade.setId(this.id);
         Usuario usuario = new Usuario();
-        usuario.setId(id);
+        usuario.setId(this.usuario_id);
         usuario = usuarioDAORemote.retrive(usuario);
         atividade.setUsuario(usuario);
         atividade.setDistancia(this.distancia);
@@ -155,11 +154,10 @@ public class AtividadeAux implements Serializable {
             atividade.setDia(null);
         }
         if (this.tempo != null) {
-            String horario = this.dia;
-            SimpleDateFormat dataformatacao = new SimpleDateFormat("HH:mm");
             Time datahora = null;
+            DateFormat formato = new SimpleDateFormat("HH:mm");
             try {
-                datahora = (Time) dataformatacao.parse(horario);
+                datahora = new java.sql.Time(formato.parse(this.tempo).getTime());
             } catch (ParseException ex) {
                 Logger.getLogger(UsuarioAux.class.getName()).log(Level.SEVERE, null, ex);
             }

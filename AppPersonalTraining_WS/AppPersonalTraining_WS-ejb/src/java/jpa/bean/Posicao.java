@@ -35,7 +35,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Posicao.achaTODOS", query = "SELECT o FROM Posicao o ORDER BY o.id"),
     @NamedQuery(name = "Posicao.achaPorAtividade", query = "SELECT o FROM Posicao o WHERE o.atividade = :atividade"),
-    @NamedQuery(name = "Posicao.achaPorusuario", query = "SELECT o FROM Posicao o WHERE o.atividade = :usuario")
+    @NamedQuery(name = "Posicao.achaPorusuario", query = "SELECT o FROM Posicao o WHERE o.atividade = :usuario"),
+    @NamedQuery(name = "Posicao.achaUltimaPosicao", query = "SELECT o FROM Posicao o WHERE o.atividade = :atividade AND o.ultimaPosicao = true")
 })
 @SequenceGenerator(name = "seqPosicao", sequenceName = "SEQPOSICAO", allocationSize = 1)
 public class Posicao implements Serializable {
@@ -50,14 +51,15 @@ public class Posicao implements Serializable {
     @OneToOne
     @JoinColumn(name = "usuario_id", referencedColumnName = "id")
     private Usuario usuario;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "atividade_id", referencedColumnName = "id")
     private Atividade atividade;
+    private Boolean ultimaPosicao;
 
     public Posicao() {
     }
 
-    public Posicao(int id, String latitude, String longitude, Date dia, Time hora, Usuario usuario, Atividade atividade) {
+    public Posicao(int id, String latitude, String longitude, Date dia, Time hora, Usuario usuario, Atividade atividade, Boolean ultimaPosicao) {
         this.id = id;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -65,6 +67,7 @@ public class Posicao implements Serializable {
         this.hora = hora;
         this.usuario = usuario;
         this.atividade = atividade;
+        this.ultimaPosicao = ultimaPosicao;
     }
 
     public int getId() {
@@ -123,10 +126,18 @@ public class Posicao implements Serializable {
         this.atividade = atividade;
     }
 
+    public Boolean getUltimaPosicao() {
+        return ultimaPosicao;
+    }
+
+    public void setUltimaPosicao(Boolean ultimaPosicao) {
+        this.ultimaPosicao = ultimaPosicao;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 97 * hash + this.id;
+        hash = 43 * hash + this.id;
         return hash;
     }
 
@@ -147,8 +158,6 @@ public class Posicao implements Serializable {
 
     @Override
     public String toString() {
-        return "Posicao{" + "id=" + id + ", latitude=" + latitude + ", longitude=" + longitude + ", dia=" + dia + ", hora=" + hora + ", usuario=" + usuario + ", atividade=" + atividade + '}';
+        return "Posicao{" + "id=" + id + ", latitude=" + latitude + ", longitude=" + longitude + ", dia=" + dia + ", hora=" + hora + ", usuario=" + usuario + ", atividade=" + atividade + ", ultimaPosicao=" + ultimaPosicao + '}';
     }
-
-
 }

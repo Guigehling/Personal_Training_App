@@ -74,6 +74,19 @@ public class PosicaoDAO implements PosicaoDAORemote {
     }
 
     @Override
+    public Posicao achaUltimaPosicao(Posicao posicao) {
+        Query query = em.createNamedQuery("Posicao.achaUltimaPosicao");
+        query.setParameter("atividade", posicao.getAtividade());
+        Posicao posicaoRet = new Posicao();
+        if (query.getResultList().size() > 0) {
+            posicaoRet = (Posicao) query.getSingleResult();
+        } else {
+            posicaoRet = null;
+        }
+        return posicaoRet;
+    }
+
+    @Override
     public boolean valida(Posicao posicao) {
         boolean ret = false;
         if (posicao != null) {
