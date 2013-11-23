@@ -36,7 +36,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Atividade.achaTODOS", query = "SELECT o FROM Atividade o ORDER BY o.id"),
     @NamedQuery(name = "Atividade.achaPorUsuario", query = "SELECT o FROM Atividade o WHERE o.usuario = :usuario"),
-    @NamedQuery(name = "Atividade.achaEmExecucao", query = "SELECT o FROM Atividade o WHERE o.usuario = :usuario AND o.concluida = FALSE")
+    @NamedQuery(name = "Atividade.achaEmExecucao", query = "SELECT o FROM Atividade o WHERE o.usuario = :usuario AND o.concluida = false")
 })
 @SequenceGenerator(name = "seqAtividade", sequenceName = "SEQATIVIDADE", allocationSize = 1)
 public class Atividade implements Serializable {

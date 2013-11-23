@@ -120,13 +120,16 @@ public class ServicoWeb {
     @Produces(MediaType.APPLICATION_JSON)
     public PosicaoAux novaposicao(PosicaoAux posicaoAux) {
         Posicao posicao = new Posicao();
+
         posicao = posicaoAux.converteParaPosicao(usuarioDAORemote, atividadeDAORemote);
         Posicao ultimaPosicao = posicaoDAORemote.achaUltimaPosicao(posicao);
         if (ultimaPosicao == null) {
+            posicao.setUltimaPosicao(true);
             posicao = posicaoDAORemote.create(posicao);
         } else {
             ultimaPosicao.setUltimaPosicao(false);
             posicaoDAORemote.update(ultimaPosicao);
+            posicao.setUltimaPosicao(true);
             posicao = posicaoDAORemote.create(posicao);
             double distancia = calculaDistancia(ultimaPosicao, posicao);
             Atividade atividade = atividadeDAORemote.achaEmExecucao(posicao.getUsuario());
@@ -171,10 +174,10 @@ public class ServicoWeb {
         String distanciaXML = "";
         double distancia = 0;
 
-        String urlString = "http://maps.googleapis.com/maps/api/directions/xml?origin=" + partida.getLatitude() + "," + partida.getLongitude() + ""
-                + "&destination=" + chegada.getLatitude() + "," + chegada.getLongitude() + "&sensor=false";
+        String urlString = "http://maps.googleapis.com/maps/api/directions/xml?origin=" + partida.getLatitude().replaceAll(",", ".") + "," + partida.getLongitude().replaceAll(",", ".") + ""
+                + "&destination=" + chegada.getLatitude().replaceAll(",", ".") + "," + chegada.getLongitude().replaceAll(",", ".") + "&sensor=false";
 
-//        String urlString = "http://maps.googleapis.com/maps/api/directions/xml?origin=-31.373022,-51.997503&destination=-31.373095,-51.997466&sensor=false";
+        //String urlString = "http://maps.googleapis.com/maps/api/directions/xml?origin=-31.373022,-51.997503&destination=-31.373095,-51.997466&sensor=false";
         System.out.println(urlString);
 
         try {

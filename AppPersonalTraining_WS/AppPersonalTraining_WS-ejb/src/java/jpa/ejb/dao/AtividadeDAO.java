@@ -59,7 +59,7 @@ public class AtividadeDAO implements AtividadeDAORemote {
     @Override
     public List<Atividade> achaPorUsuario(Usuario usuario) {
         Query query = em.createNamedQuery("Atividade.achaPorUsuario");
-        query.setParameter("usuario", usuario.getId());
+        query.setParameter("usuario", usuario);
         List<Atividade> atividades = query.getResultList();
         return atividades;
     }
@@ -67,7 +67,7 @@ public class AtividadeDAO implements AtividadeDAORemote {
     @Override
     public Atividade achaEmExecucao(Usuario usuario) {
         Query query = em.createNamedQuery("Atividade.achaEmExecucao");
-        query.setParameter("usuario", usuario.getId());
+        query.setParameter("usuario", usuario);
         Atividade atividade = new Atividade();
         if (query.getResultList().size() > 0) {
             atividade = (Atividade) query.getSingleResult();
