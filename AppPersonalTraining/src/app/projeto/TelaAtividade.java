@@ -37,7 +37,7 @@ import java.util.logging.Logger;
  */
 public class TelaAtividade extends Activity {
 
-    Posicao posicaoAtual = new Posicao();
+    //Posicao posicaoAtual = new Posicao();
     Atividade atividadeAtual = new Atividade();
     Usuario usuarioLogado = new Usuario();
     ServicoWebClient servico = new ServicoWebClient();
@@ -95,20 +95,14 @@ public class TelaAtividade extends Activity {
         finalizaCronometro();
     }
 
-//    public void onClickBtEnviar(View v) throws InterruptedException, ServicoException {
-//        posicaoAtual.setId(1);
-//        // movimentoAtual = servico.retornaAtividade(posicaoAtual);
-//        EditText txtEnviar = (EditText) findViewById(R.id.txtEnviar);
-//        txtEnviar.setText((int) movimentoAtual.getDistancia());
-//    }
-//
     public void ativaGPS() {
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         LocationListener locationListener = new LocationListener() {
             public void onLocationChanged(Location location) {
                 String msg = String.format("Latitude: [%9.6f] Longitude: [%9.6f]", location.getLatitude(), location.getLongitude());
-                Log.w("PersonalTraining", msg);
-                Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+//                Log.w("PersonalTraining", msg);
+//                Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+                Posicao posicaoAtual = new Posicao();
                 posicaoAtual.setLatitude(String.format("%9.6f", location.getLatitude()));
                 posicaoAtual.setLongitude(String.format("%9.6f", location.getLongitude()));
                 posicaoAtual.setDia(new Date());
@@ -118,12 +112,9 @@ public class TelaAtividade extends Activity {
                 posicaoAtual.setUltimaPosicao(true);
                 posicaoAtual = servico.novaPosicao(posicaoAtual);
                 atividadeAtual = servico.atualizaAtividade(atividadeAtual);
-
-
-                //atividadeAtual = servico.retornaAtividade(posicaoAtual);
-                //txtDistancia.setText(String.valueOf(atividadeAtual.getDistancia()));
-                //txtVelocidade.setText(String.valueOf(atividadeAtual.getVelocidade()));
-
+                String a = String.valueOf(atividadeAtual.getDistancia());
+                txtDistancia.setText(a + " Km");
+                txtVelocidade.setText(String.valueOf(atividadeAtual.getVelocidade()) + " Km/s");
             }
 
             public void onStatusChanged(String provider, int status, Bundle extras) {
