@@ -28,17 +28,29 @@ public class AtividadeDAO {
 
     private Context context;
 
+    public AtividadeDAO(Context context) {
+        this.context = context;
+    }
+
     public void create(Atividade atividade) {
         BancoDados bd = new BancoDados(context);
         SQLiteDatabase conn = bd.getWritableDatabase();
         ContentValues valores = new ContentValues();
         valores.put("id", atividade.getId());
-        SimpleDateFormat dataformatacao = new SimpleDateFormat("dd/MM/yyyy");
-        String dataformatada = dataformatacao.format(atividade.getDia());
-        valores.put("dia", dataformatada);
-        SimpleDateFormat tempoformatacao = new SimpleDateFormat("HH:mm");
-        String tempoformatado = tempoformatacao.format(atividade.getTempo());
-        valores.put("hora", tempoformatado);
+        if (atividade.getDia() != null) {
+            SimpleDateFormat dataformatacao = new SimpleDateFormat("dd/MM/yyyy");
+            String dataTexto = dataformatacao.format(atividade.getDia());
+            valores.put("dia", dataTexto);
+        } else {
+            valores.put("dia", "");
+        }
+        if (atividade.getTempo() != null) {
+            SimpleDateFormat dataformatacao = new SimpleDateFormat("mm:ss");
+            String dataHora = dataformatacao.format(atividade.getTempo());
+            valores.put("hora", dataHora);
+        } else {
+            valores.put("hora", "");
+        }
         valores.put("usuario_id", atividade.getUsuario_id());
         valores.put("distancia", atividade.getDistancia());
         valores.put("velocidade", atividade.getVelocidade());
@@ -51,15 +63,15 @@ public class AtividadeDAO {
         conn.close();
     }
 
-    public Atividade retrive() {
-        Atividade ativi = new Atividade();
+    public Atividade retrive(Atividade atividade) {
+        Atividade atividadeRet = new Atividade();
         BancoDados bd = new BancoDados(context);
         SQLiteDatabase conn = bd.getWritableDatabase();
-        Cursor cursor = conn.rawQuery("SELECT * FROM atividade", null);
+        Cursor cursor = conn.rawQuery("SELECT * FROM atividade where id = " + atividade.getId(), null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            Atividade atividade = new Atividade();
-            atividade.setId(cursor.getInt(0));
+            Atividade atv = new Atividade();
+            atv.setId(cursor.getInt(0));
             String dia = cursor.getString(1);
             SimpleDateFormat dataformatacao = new SimpleDateFormat("dd/MM/yyyy");
             Date dataformatada = null;
@@ -68,7 +80,7 @@ public class AtividadeDAO {
             } catch (ParseException ex) {
                 Logger.getLogger(AtividadeDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
-            atividade.setDia(dataformatada);
+            atv.setDia(dataformatada);
             String tempo = cursor.getString(2);
             SimpleDateFormat tempoformatacao = new SimpleDateFormat("HH:mm");
             Time tempoformatada = null;
@@ -77,20 +89,20 @@ public class AtividadeDAO {
             } catch (ParseException ex) {
                 Logger.getLogger(AtividadeDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
-            atividade.setTempo(tempoformatada);
-            atividade.setUsuario_id(cursor.getInt(3));
-            atividade.setDistancia(cursor.getDouble(4));
-            atividade.setVelocidade(cursor.getDouble(5));
+            atv.setTempo(tempoformatada);
+            atv.setUsuario_id(cursor.getInt(3));
+            atv.setDistancia(cursor.getDouble(4));
+            atv.setVelocidade(cursor.getDouble(5));
             if (cursor.getInt(6) == 1) {
-                atividade.setConcluida(true);
+                atv.setConcluida(true);
             } else {
-                atividade.setConcluida(false);
+                atv.setConcluida(false);
             }
-            ativi = atividade;
+            atividadeRet = atividade;
             cursor.moveToNext();
         }
         conn.close();
-        return ativi;
+        return atividadeRet;
     }
 
     public void update(Atividade atividade) {
@@ -98,12 +110,20 @@ public class AtividadeDAO {
         SQLiteDatabase conn = bd.getWritableDatabase();
         ContentValues valores = new ContentValues();
         valores.put("id", atividade.getId());
-        SimpleDateFormat dataformatacao = new SimpleDateFormat("dd/MM/yyyy");
-        String dataformatada = dataformatacao.format(atividade.getDia());
-        valores.put("dia", dataformatada);
-        SimpleDateFormat tempoformatacao = new SimpleDateFormat("HH:mm");
-        String tempoformatado = tempoformatacao.format(atividade.getTempo());
-        valores.put("hora", tempoformatado);
+        if (atividade.getDia() != null) {
+            SimpleDateFormat dataformatacao = new SimpleDateFormat("dd/MM/yyyy");
+            String dataTexto = dataformatacao.format(atividade.getDia());
+            valores.put("dia", dataTexto);
+        } else {
+            valores.put("dia", "");
+        }
+        if (atividade.getTempo() != null) {
+            SimpleDateFormat dataformatacao = new SimpleDateFormat("mm:ss");
+            String dataHora = dataformatacao.format(atividade.getTempo());
+            valores.put("hora", dataHora);
+        } else {
+            valores.put("hora", "");
+        }
         valores.put("usuario_id", atividade.getUsuario_id());
         valores.put("distancia", atividade.getDistancia());
         valores.put("velocidade", atividade.getVelocidade());
@@ -112,7 +132,7 @@ public class AtividadeDAO {
         } else {
             valores.put("concluida", 0);
         }
-        conn.update("atividade", valores, null, null);
+        conn.insert("atividade", null, valores);
         conn.close();
     }
 

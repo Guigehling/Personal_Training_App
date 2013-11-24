@@ -21,6 +21,7 @@ import android.widget.Toast;
 import app.bean.Atividade;
 import app.bean.Posicao;
 import app.bean.Usuario;
+import app.dao.AtividadeDAO;
 import app.dao.UsuarioDAO;
 import app.servico.ServicoWebClient;
 import java.sql.Time;
@@ -45,6 +46,7 @@ public class TelaAtividade extends Activity {
     ImageButton btStart, btPause, btStop;
     TextView txtDistancia, txtVelocidade;
     boolean cronometroPausado = false;
+    boolean ativado = false;
     long tempoQuandoParado = 0;
 
     /**
@@ -70,7 +72,7 @@ public class TelaAtividade extends Activity {
         iniciaCronometro();
         atividadeAtual.setDia(new Date());
         Time datahora = null;
-        DateFormat formato = new SimpleDateFormat("HH:mm");
+        DateFormat formato = new SimpleDateFormat("mm:ss");
         try {
             datahora = new java.sql.Time(formato.parse(cronometro.getText().toString()).getTime());
         } catch (ParseException ex) {
@@ -80,6 +82,9 @@ public class TelaAtividade extends Activity {
         atividadeAtual.setUsuario_id(usuarioLogado.getId());
         atividadeAtual.setConcluida(false);
         atividadeAtual = servico.criaAtividade(atividadeAtual);
+        AtividadeDAO atividadeDAO = new AtividadeDAO(this);
+        atividadeDAO.create(atividadeAtual);
+        ativado = true;
         ativaGPS();
     }
 
@@ -92,6 +97,21 @@ public class TelaAtividade extends Activity {
     public void onClickBtStop(View v) {
         btStart.setVisibility(View.VISIBLE);
         btPause.setVisibility(View.INVISIBLE);
+        txtDistancia.setText("0.0 m");
+        txtVelocidade.setText("0.0 m/s");
+        Time datahora = null;
+        DateFormat formato = new SimpleDateFormat("mm:ss");
+        try {
+            datahora = new java.sql.Time(formato.parse(cronometro.getText().toString()).getTime());
+        } catch (ParseException ex) {
+            Logger.getLogger(TelaAtividade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        atividadeAtual.setTempo(datahora);
+        atividadeAtual = servico.finalizaAtividade(atividadeAtual);
+        AtividadeDAO atividadeDAO = new AtividadeDAO(this);
+        atividadeDAO.update(atividadeAtual);
+        ativado = false;
+        ativaGPS();
         finalizaCronometro();
     }
 
@@ -99,22 +119,32 @@ public class TelaAtividade extends Activity {
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         LocationListener locationListener = new LocationListener() {
             public void onLocationChanged(Location location) {
-                String msg = String.format("Latitude: [%9.6f] Longitude: [%9.6f]", location.getLatitude(), location.getLongitude());
+                if (ativado) {
+                    String msg = String.format("Latitude: [%9.6f] Longitude: [%9.6f]", location.getLatitude(), location.getLongitude());
 //                Log.w("PersonalTraining", msg);
 //                Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
-                Posicao posicaoAtual = new Posicao();
-                posicaoAtual.setLatitude(String.format("%9.6f", location.getLatitude()));
-                posicaoAtual.setLongitude(String.format("%9.6f", location.getLongitude()));
-                posicaoAtual.setDia(new Date());
-                posicaoAtual.setHora(new Time(new Date().getTime()));
-                posicaoAtual.setUsuario_id(usuarioLogado.getId());
-                posicaoAtual.setAtividade_id(atividadeAtual.getId());
-                posicaoAtual.setUltimaPosicao(true);
-                posicaoAtual = servico.novaPosicao(posicaoAtual);
-                atividadeAtual = servico.atualizaAtividade(atividadeAtual);
-                String a = String.valueOf(atividadeAtual.getDistancia());
-                txtDistancia.setText(a + " Km");
-                txtVelocidade.setText(String.valueOf(atividadeAtual.getVelocidade()) + " Km/s");
+                    Posicao posicaoAtual = new Posicao();
+                    posicaoAtual.setLatitude(String.format("%9.6f", location.getLatitude()));
+                    posicaoAtual.setLongitude(String.format("%9.6f", location.getLongitude()));
+                    posicaoAtual.setDia(new Date());
+                    posicaoAtual.setHora(new Time(new Date().getTime()));
+                    posicaoAtual.setUsuario_id(usuarioLogado.getId());
+                    posicaoAtual.setAtividade_id(atividadeAtual.getId());
+                    posicaoAtual.setUltimaPosicao(true);
+                    posicaoAtual = servico.novaPosicao(posicaoAtual);
+                    Time datahora = null;
+                    DateFormat formato = new SimpleDateFormat("mm:ss");
+                    try {
+                        datahora = new java.sql.Time(formato.parse(cronometro.getText().toString()).getTime());
+                    } catch (ParseException ex) {
+                        Logger.getLogger(TelaAtividade.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    atividadeAtual.setTempo(datahora);
+                    atividadeAtual = servico.atualizaAtividade(atividadeAtual);
+                    String a = String.valueOf(atividadeAtual.getDistancia());
+                    txtDistancia.setText(a + " m");
+                    txtVelocidade.setText(String.valueOf(atividadeAtual.getVelocidade()) + " m/s");
+                }
             }
 
             public void onStatusChanged(String provider, int status, Bundle extras) {
@@ -146,6 +176,7 @@ public class TelaAtividade extends Activity {
                 Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
             }
         };
+
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 60000, 0, locationListener);
     }
 
@@ -163,7 +194,7 @@ public class TelaAtividade extends Activity {
     }
 
     public void pausaCronometro() {
-        if (cronometroPausado == false) { //entra para false;
+        if (cronometroPausado == false) {
             tempoQuandoParado = cronometro.getBase() - SystemClock.elapsedRealtime();
         }
         cronometro.stop();

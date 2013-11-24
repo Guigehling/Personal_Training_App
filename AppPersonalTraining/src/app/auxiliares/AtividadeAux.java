@@ -124,7 +124,7 @@ public class AtividadeAux {
             this.dia = null;
         }
         if (atividade.getTempo() != null) {
-            SimpleDateFormat dataformatacao = new SimpleDateFormat("HH:mm");
+            SimpleDateFormat dataformatacao = new SimpleDateFormat("mm:ss");
             String dataHora = dataformatacao.format(atividade.getTempo());
             this.tempo = dataHora;
         } else {
@@ -154,7 +154,7 @@ public class AtividadeAux {
         }
         if (this.tempo != null) {
             String horario = this.dia;
-            SimpleDateFormat dataformatacao = new SimpleDateFormat("HH:mm");
+            SimpleDateFormat dataformatacao = new SimpleDateFormat("mm:ss");
             Time datahora = null;
             try {
                 datahora = (Time) dataformatacao.parse(horario);

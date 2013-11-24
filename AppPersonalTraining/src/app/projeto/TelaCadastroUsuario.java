@@ -60,11 +60,11 @@ public class TelaCadastroUsuario extends Activity {
         if (!"Não Cadastrado".equals(usuarioCriado.getNome())) {
             UsuarioDAO usuarioDAO = new UsuarioDAO(this);
             usuarioDAO.create(usuarioCriado);
-            new AlertDialog.Builder(this).setTitle("Aviso!!").setMessage("Bem Vindo ao Let's Rining!").setNeutralButton("OK", null).show();
+            new AlertDialog.Builder(this).setTitle("Aviso!!").setMessage("Bem Vindo ao Let's Running!").show();
             Intent intent = new Intent(this, TelaOpcoes.class);
             startActivity(intent);
         } else {
-            new AlertDialog.Builder(this).setTitle("Aviso!!").setMessage("Usuario não encontrado!").setNeutralButton("OK", null).show();
+            new AlertDialog.Builder(this).setTitle("Aviso!!").setMessage("Usuario não cadastrado!").setNeutralButton("OK", null).show();
         }
     }
 }

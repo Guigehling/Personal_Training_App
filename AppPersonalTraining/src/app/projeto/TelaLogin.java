@@ -14,6 +14,8 @@ import app.auxiliares.ServicoException;
 import app.bean.Usuario;
 import app.dao.UsuarioDAO;
 import app.servico.ServicoWebClient;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -33,8 +35,17 @@ public class TelaLogin extends Activity {
         UsuarioDAO usuarioDAO = new UsuarioDAO(this);
         Usuario usuario = usuarioDAO.retrive();
         if (usuario != null) {
-            Intent intent = new Intent(this, TelaOpcoes.class);
-            startActivity(intent);
+            try {
+                Usuario usuarioconfirmado = servico.retonaUsuario(usuario);
+                if (usuarioconfirmado.equals(usuario)) {
+                    Intent intent = new Intent(this, TelaOpcoes.class);
+                    startActivity(intent);
+                } else {
+                    new AlertDialog.Builder(this).setTitle("Aviso!!").setMessage("Usuario vazio!").setNeutralButton("OK", null).show();
+                }
+            } catch (ServicoException ex) {
+                Logger.getLogger(TelaLogin.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -52,7 +63,7 @@ public class TelaLogin extends Activity {
         if (!"Não Cadastrado".equals(usuarioconfirmado.getNome())) {
             UsuarioDAO usuarioDAO = new UsuarioDAO(this);
             usuarioDAO.create(usuarioconfirmado);
-            Intent intent = new Intent(this, TelaAtividade.class);
+            Intent intent = new Intent(this, TelaOpcoes.class);
             startActivity(intent);
         } else {
             new AlertDialog.Builder(this).setTitle("Aviso!!").setMessage("Usuario não encontrado!").setNeutralButton("OK", null).show();

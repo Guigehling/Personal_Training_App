@@ -17,23 +17,29 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import app.auxiliares.ItemOpcao;
+import app.bean.Atividade;
+import app.bean.Usuario;
+import app.dao.AtividadeDAO;
 import app.dao.UsuarioDAO;
+import app.servico.ServicoWebClient;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author Guilherme Gehling
  */
-public class TelaOpcoes extends Activity implements OnItemClickListener {
+public class TelaHistorico extends Activity implements OnItemClickListener {
 
     private ListView listView;
     private Lista_opcao lista;
     private ArrayList<ItemOpcao> itens;
+    ServicoWebClient servico = new ServicoWebClient();
 
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
-        setContentView(R.layout.telaopcoes);
+        setContentView(R.layout.telahistorico);
 
         listView = (ListView) findViewById(R.id.list);
         listView = (ListView) findViewById(R.id.list);
@@ -50,8 +56,8 @@ public class TelaOpcoes extends Activity implements OnItemClickListener {
             startActivity(intent);
         }
         if ("Historico".equals(item.getAcao())) {
-            Intent intent = new Intent(this, TelaHistorico.class);
-            startActivity(intent);
+//            Intent intent = new Intent(this, ListMsgRecebidas.class);
+//            startActivity(intent);
         }
     }
 
@@ -81,13 +87,34 @@ public class TelaOpcoes extends Activity implements OnItemClickListener {
 //        }
 //    }
     private void createListView() {
-        //Criamos nossa lista que preenchera o ListView
-        itens = new ArrayList<ItemOpcao>();
-        ItemOpcao item1 = new ItemOpcao("Nova Atividade");
-        ItemOpcao item2 = new ItemOpcao("Historico");
+        AtividadeDAO atividadeDAO = new AtividadeDAO(this);
+        List<Atividade> atividades = atividadeDAO.listAll();
 
-        itens.add(item1);
-        itens.add(item2);
+        itens = new ArrayList<ItemOpcao>();
+        if (atividades.size() > 0) {
+            for (int i = 0; i < atividades.size(); i++) {
+                String atv = String.valueOf(atividades.get(i).getId());
+                ItemOpcao item1 = new ItemOpcao(atv);
+                itens.add(item1);
+            }
+        } else {
+            new AlertDialog.Builder(this).setTitle("Aviso!!").setMessage("Você não possui atividades em seu historico!").show();
+            UsuarioDAO usuarioDAO = new UsuarioDAO(this);
+            Usuario usuario = new Usuario();
+            usuario = usuarioDAO.retrive();
+            servico.historicoAtividade(usuario);
+            //            Intent intent = new Intent(this, TelaOpcoes.class);
+            //            startActivity(intent);
+        }
+
+
+        //Criamos nossa lista que preenchera o ListView
+//        itens = new ArrayList<ItemOpcao>();
+//        ItemOpcao item1 = new ItemOpcao("Nova Atividade");
+//        ItemOpcao item2 = new ItemOpcao("Historico");
+//
+//        itens.add(item1);
+//        itens.add(item2);
 
         //Cria o adapter
         lista = new Lista_opcao(this, itens);
