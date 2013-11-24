@@ -118,7 +118,7 @@ public class AtividadeAux implements Serializable {
             this.dia = null;
         }
         if (atividade.getTempo() != null) {
-            SimpleDateFormat dataformatacao = new SimpleDateFormat("HH:mm");
+            SimpleDateFormat dataformatacao = new SimpleDateFormat("mm:ss");
             String dataHora = dataformatacao.format(atividade.getTempo());
             this.tempo = dataHora;
         } else {
@@ -155,7 +155,7 @@ public class AtividadeAux implements Serializable {
         }
         if (this.tempo != null) {
             Time datahora = null;
-            DateFormat formato = new SimpleDateFormat("HH:mm");
+            DateFormat formato = new SimpleDateFormat("mm:ss");
             try {
                 datahora = new java.sql.Time(formato.parse(this.tempo).getTime());
             } catch (ParseException ex) {
