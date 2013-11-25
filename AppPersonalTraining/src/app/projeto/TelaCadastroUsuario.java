@@ -67,4 +67,9 @@ public class TelaCadastroUsuario extends Activity {
             new AlertDialog.Builder(this).setTitle("Aviso!!").setMessage("Usuario não cadastrado!").setNeutralButton("OK", null).show();
         }
     }
+
+    public void onClickbtCancela(View v) {
+        Intent intent = new Intent(this, TelaLogin.class);
+        startActivity(intent);
+    }
 }

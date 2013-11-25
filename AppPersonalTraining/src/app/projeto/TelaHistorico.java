@@ -46,28 +46,19 @@ public class TelaHistorico extends Activity implements OnItemClickListener {
         listView = (ListView) findViewById(R.id.list);
         listView.setOnItemClickListener(this);
 
+        AtividadeDAO atividadeDAO = new AtividadeDAO(this);
+        atividades = atividadeDAO.listAll();
+
         createListView();
     }
 
     public void onItemClick(AdapterView<?> av, View view, int i, long l) {
-        //Pega o item que foi selecionado.
         ItemOpcao item = lista.getItem(i);
         Intent intent = new Intent(this, TelaHistoricoAtividade.class);
         Bundle bundle = new Bundle();
         bundle.putInt("id_atividade", atividades.get(i).getId());
         intent.putExtras(bundle);
         startActivity(intent);
-
-//        if ("Nova Atividade".equals(item.getAcao())) {
-//            Intent intent = new Intent(this, TelaAtividade.class);
-//            startActivity(intent);
-//        }
-//        if ("Historico".equals(item.getAcao())) {
-////            Intent intent = new Intent(this, ListMsgRecebidas.class);
-////            startActivity(intent);
-//        }
-//
-
     }
 
     @Override
@@ -81,6 +72,7 @@ public class TelaHistorico extends Activity implements OnItemClickListener {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.btCarrega:
+                atividades.clear();
                 UsuarioDAO usuarioDAO = new UsuarioDAO(this);
                 Usuario usuario = usuarioDAO.retrive();
                 int qtd = servico.quantidadeAtividade(usuario);
@@ -100,24 +92,28 @@ public class TelaHistorico extends Activity implements OnItemClickListener {
     }
 
     private void createListView() {
-        AtividadeDAO atividadeDAO = new AtividadeDAO(this);
-
         itens = new ArrayList<ItemOpcao>();
         if (atividades.size() > 0) {
             for (int i = 0; i < atividades.size(); i++) {
                 String atv = String.valueOf(atividades.get(i).getId());
-                //atv = atv + atividades.get(i).getDia();
                 ItemOpcao item1 = new ItemOpcao(atv);
                 itens.add(item1);
             }
         } else {
-            new AlertDialog.Builder(this).setTitle("Aviso!!").setMessage("Você não possui atividades em seu historico!").show();
+            new AlertDialog.Builder(this).setTitle("Aviso!!").setMessage("Você não possui atividades em seu historico local!").show();
 //            UsuarioDAO usuarioDAO = new UsuarioDAO(this);
-//            Usuario usuario = new Usuario();
-//            usuario = usuarioDAO.retrive();
-//            servico.historicoAtividade(usuario);
-            //            Intent intent = new Intent(this, TelaOpcoes.class);
-            //            startActivity(intent);
+//            Usuario usuario = usuarioDAO.retrive();
+//            int qtd = servico.quantidadeAtividade(usuario);
+//            int id = 0;
+//            for (int i = 0; i < qtd; i++) {
+//                Atividade atividade = new Atividade();
+//                atividade.setId(id);
+//                atividade.setUsuario_id(usuario.getId());
+//                atividade = servico.carregaAtividade(atividade);
+//                atividades.add(atividade);
+//                id = atividade.getId();
+//            }
+//            createListView();
         }
 
         //Cria o adapter

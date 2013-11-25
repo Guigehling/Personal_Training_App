@@ -5,7 +5,9 @@
 package app.projeto;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -91,6 +93,7 @@ public class TelaAtividade extends Activity {
     public void onClickBtpause(View v) {
         btStart.setVisibility(View.VISIBLE);
         btPause.setVisibility(View.INVISIBLE);
+        ativado = false;
         pausaCronometro();
     }
 
@@ -113,6 +116,9 @@ public class TelaAtividade extends Activity {
         ativado = false;
         ativaGPS();
         finalizaCronometro();
+        new AlertDialog.Builder(this).setTitle("Aviso!!").setMessage("Atividade Concluida!").show();
+        Intent intent = new Intent(this, TelaOpcoes.class);
+        startActivity(intent);
     }
 
     public void ativaGPS() {
@@ -121,8 +127,6 @@ public class TelaAtividade extends Activity {
             public void onLocationChanged(Location location) {
                 if (ativado) {
                     String msg = String.format("Latitude: [%9.6f] Longitude: [%9.6f]", location.getLatitude(), location.getLongitude());
-//                Log.w("PersonalTraining", msg);
-//                Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
                     Posicao posicaoAtual = new Posicao();
                     posicaoAtual.setLatitude(String.format("%9.6f", location.getLatitude()));
                     posicaoAtual.setLongitude(String.format("%9.6f", location.getLongitude()));

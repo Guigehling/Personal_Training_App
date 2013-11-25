@@ -38,10 +38,15 @@ public class TelaLogin extends Activity {
             try {
                 Usuario usuarioconfirmado = servico.retonaUsuario(usuario);
                 if (usuarioconfirmado.equals(usuario)) {
+                    EditText txtEmail = (EditText) findViewById(R.id.txtEmailLogin);
+                    EditText txtSenha = (EditText) findViewById(R.id.txtSenhaLogin);
+
+                    txtEmail.setText(usuarioconfirmado.getEmail());
+                    txtSenha.setText(usuarioconfirmado.getSenha());
                     Intent intent = new Intent(this, TelaOpcoes.class);
                     startActivity(intent);
                 } else {
-                    new AlertDialog.Builder(this).setTitle("Aviso!!").setMessage("Usuario vazio!").setNeutralButton("OK", null).show();
+                    new AlertDialog.Builder(this).setTitle("Aviso!!").setMessage("Sem Usuarios cadastrados!").setNeutralButton("OK", null).show();
                 }
             } catch (ServicoException ex) {
                 Logger.getLogger(TelaLogin.class.getName()).log(Level.SEVERE, null, ex);
