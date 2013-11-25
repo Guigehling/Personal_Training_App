@@ -135,19 +135,45 @@ public class ServicoWeb {
     }
 
     @POST
-    @Path(value = "historicoatividade")
+    @Path(value = "qtdatividade")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public List<AtividadeAux> historicoAtividade(AtividadeAux atividadeAux) {
+    public AtividadeAux quantidadeAtividade(AtividadeAux atividadeAux) {
         Atividade atividade = atividadeAux.converteParaAtividade(usuarioDAORemote);
-        List<Atividade> atividades = atividadeDAORemote.achaTodos();
-        List<AtividadeAux> atividadeAuxs = new ArrayList<AtividadeAux>();
+        List<Atividade> atividades = atividadeDAORemote.achaPorUsuario(atividade.getUsuario());
+        AtividadeAux atividadeAuxRet = new AtividadeAux();
+        atividadeAuxRet.setId(atividades.size());
+        return atividadeAuxRet;
+    }
+
+    @POST
+    @Path(value = "carregaatividade")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public AtividadeAux carregaAtividade(AtividadeAux atividadeAux) {
+        Atividade atividadeRet = new Atividade();
+        Atividade atividade = atividadeAux.converteParaAtividade(usuarioDAORemote);
+        int idteste = atividade.getId();
+        List<Atividade> atividades = atividadeDAORemote.achaPorUsuario(atividade.getUsuario());
         for (int i = 0; i <= atividades.size(); i++) {
-            AtividadeAux atividadeAuxRet = new AtividadeAux();
-            atividadeAuxRet.converteParaAtividadeAux(atividades.get(i));
-            atividadeAuxs.add(atividadeAux);
+            if (atividades.get(i).getId() > idteste) {
+                atividadeRet = atividades.get(i);
+                i = atividades.size() + 1;
+            }
         }
-        return atividadeAuxs;
+        atividadeAux.converteParaAtividadeAux(atividadeRet);
+        return atividadeAux;
+    }
+
+    @POST
+    @Path(value = "buscaatividade")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public AtividadeAux buscaAtividade(AtividadeAux atividadeAux) {
+        Atividade atividade = atividadeAux.converteParaAtividade(usuarioDAORemote);
+        atividade = atividadeDAORemote.retrive(atividade);
+        atividadeAux.converteParaAtividadeAux(atividade);
+        return atividadeAux;
     }
 
     //controle do posicionamento do usuario
