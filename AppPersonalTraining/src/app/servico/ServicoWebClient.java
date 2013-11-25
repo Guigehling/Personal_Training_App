@@ -104,14 +104,13 @@ public class ServicoWebClient {
     }
 
     /**
-     * Este metodo é o responsavel por informar ao Web Server o ecerramento de
-     * uma atividade.
+     * Este metodo verificar a quantidade de atividades do usuario no Web Server
      *
      * @param Atividade
      * @return Atividade
      * @throws ServicoException
      */
-    public Atividade historicoAtividade(Usuario usuario) {
+    public int quantidadeAtividade(Usuario usuario) {
         Atividade atividadeModelo = new Atividade();
         atividadeModelo.setUsuario_id(usuario.getId());
         AtividadeAux atividadeAux = new AtividadeAux();
@@ -120,13 +119,63 @@ public class ServicoWebClient {
         String json = gson.toJson(atividadeAux);
         String resp = null;
         try {
-            resp = new String(this.requisicaoWebServer(json.getBytes(), "/historicoatividade"));
+            resp = new String(this.requisicaoWebServer(json.getBytes(), "/qtdatividade"));
         } catch (ServicoException ex) {
             Logger.getLogger(ServicoWebClient.class.getName()).log(Level.SEVERE, null, ex);
         }
         atividadeAux = gson.fromJson(resp, AtividadeAux.class);
         atividadeModelo = atividadeAux.converteParaAtividade();
-        return atividadeModelo;
+        return atividadeModelo.getId();
+    }
+
+    /**
+     * Este metodo é o responsavel por informar ao Web Server o ecerramento de
+     * uma atividade.
+     *
+     * @param Atividade
+     * @return Atividade
+     * @throws ServicoException
+     */
+    public Atividade carregaAtividade(Atividade atividade) {
+        AtividadeAux atividadeAux = new AtividadeAux();
+        atividadeAux.converteParaAtividadeAux(atividade);
+        Gson gson = new GsonBuilder().create();
+        String json = gson.toJson(atividadeAux);
+        String resp = null;
+        try {
+            resp = new String(this.requisicaoWebServer(json.getBytes(), "/carregaatividade"));
+        } catch (ServicoException ex) {
+            Logger.getLogger(ServicoWebClient.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+        atividadeAux = gson.fromJson(resp, AtividadeAux.class);
+        atividade = atividadeAux.converteParaAtividade();
+        return atividade;
+    }
+
+    /**
+     * Este metodo é o responsavel por informar ao Web Server o ecerramento de
+     * uma atividade.
+     *
+     * @param Atividade
+     * @return Atividade
+     * @throws ServicoException
+     */
+    public Atividade buscaAtividade(Atividade atividade) {
+        AtividadeAux atividadeAux = new AtividadeAux();
+        atividadeAux.converteParaAtividadeAux(atividade);
+        Gson gson = new GsonBuilder().create();
+        String json = gson.toJson(atividadeAux);
+        String resp = null;
+        try {
+            resp = new String(this.requisicaoWebServer(json.getBytes(), "/buscaatividade"));
+        } catch (ServicoException ex) {
+            Logger.getLogger(ServicoWebClient.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+        atividadeAux = gson.fromJson(resp, AtividadeAux.class);
+        atividade = atividadeAux.converteParaAtividade();
+        return atividade;
     }
 
     /**

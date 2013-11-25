@@ -8,6 +8,7 @@ import app.bean.Atividade;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import java.sql.Time;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -153,11 +154,10 @@ public class AtividadeAux {
             atividade.setDia(null);
         }
         if (this.tempo != null) {
-            String horario = this.dia;
-            SimpleDateFormat dataformatacao = new SimpleDateFormat("mm:ss");
             Time datahora = null;
+            DateFormat formato = new SimpleDateFormat("mm:ss");
             try {
-                datahora = (Time) dataformatacao.parse(horario);
+                datahora = new java.sql.Time(formato.parse(this.tempo).getTime());
             } catch (ParseException ex) {
                 Logger.getLogger(UsuarioAux.class.getName()).log(Level.SEVERE, null, ex);
             }

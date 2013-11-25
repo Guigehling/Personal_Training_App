@@ -24,5 +24,9 @@
                   android:label="Atividade"/>
         <activity android:name="TelaHistorico"
                   android:label="Historico"/>
+        <activity android:name="TelaHistoricoAtividade"
+                  android:label="Atividade Concluida"/>
+        <activity android:name="TelaMapa"
+                  android:label="Mapa"/>
     </application>
 </manifest> 

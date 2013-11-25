@@ -10,7 +10,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import app.bd.BancoDados;
 import app.bean.Atividade;
-import app.bean.Posicao;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -47,9 +46,9 @@ public class AtividadeDAO {
         if (atividade.getTempo() != null) {
             SimpleDateFormat dataformatacao = new SimpleDateFormat("mm:ss");
             String dataHora = dataformatacao.format(atividade.getTempo());
-            valores.put("hora", dataHora);
+            valores.put("tempo", dataHora);
         } else {
-            valores.put("hora", "");
+            valores.put("tempo", "");
         }
         valores.put("usuario_id", atividade.getUsuario_id());
         valores.put("distancia", atividade.getDistancia());
@@ -120,9 +119,9 @@ public class AtividadeDAO {
         if (atividade.getTempo() != null) {
             SimpleDateFormat dataformatacao = new SimpleDateFormat("mm:ss");
             String dataHora = dataformatacao.format(atividade.getTempo());
-            valores.put("hora", dataHora);
+            valores.put("tempo", dataHora);
         } else {
-            valores.put("hora", "");
+            valores.put("tempo", "");
         }
         valores.put("usuario_id", atividade.getUsuario_id());
         valores.put("distancia", atividade.getDistancia());

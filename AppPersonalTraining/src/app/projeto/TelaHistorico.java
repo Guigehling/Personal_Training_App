@@ -33,6 +33,7 @@ public class TelaHistorico extends Activity implements OnItemClickListener {
 
     private ListView listView;
     private Lista_opcao lista;
+    List<Atividade> atividades = new ArrayList<Atividade>();
     private ArrayList<ItemOpcao> itens;
     ServicoWebClient servico = new ServicoWebClient();
 
@@ -51,70 +52,73 @@ public class TelaHistorico extends Activity implements OnItemClickListener {
     public void onItemClick(AdapterView<?> av, View view, int i, long l) {
         //Pega o item que foi selecionado.
         ItemOpcao item = lista.getItem(i);
-        if ("Nova Atividade".equals(item.getAcao())) {
-            Intent intent = new Intent(this, TelaAtividade.class);
-            startActivity(intent);
-        }
-        if ("Historico".equals(item.getAcao())) {
-//            Intent intent = new Intent(this, ListMsgRecebidas.class);
+        Intent intent = new Intent(this, TelaHistoricoAtividade.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("id_atividade", atividades.get(i).getId());
+        intent.putExtras(bundle);
+        startActivity(intent);
+
+//        if ("Nova Atividade".equals(item.getAcao())) {
+//            Intent intent = new Intent(this, TelaAtividade.class);
 //            startActivity(intent);
+//        }
+//        if ("Historico".equals(item.getAcao())) {
+////            Intent intent = new Intent(this, ListMsgRecebidas.class);
+////            startActivity(intent);
+//        }
+//
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menutelahistorico, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.btCarrega:
+                UsuarioDAO usuarioDAO = new UsuarioDAO(this);
+                Usuario usuario = usuarioDAO.retrive();
+                int qtd = servico.quantidadeAtividade(usuario);
+                int id = 0;
+                for (int i = 0; i < qtd; i++) {
+                    Atividade atividade = new Atividade();
+                    atividade.setId(id);
+                    atividade.setUsuario_id(usuario.getId());
+                    atividade = servico.carregaAtividade(atividade);
+                    atividades.add(atividade);
+                    id = atividade.getId();
+                }
+                createListView();
+            default:
+                return super.onContextItemSelected(item);
         }
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.menuopcao, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//
-//        switch (item.getItemId()) {
-//            case R.id.btLimparTudo:
-//                UsuarioDAO usr = new UsuarioDAO(this);
-//                RecebidasDAO rec = new RecebidasDAO(this);
-//                EnviadasDAO env = new EnviadasDAO(this);
-//                rec.delete();
-//                env.delete();
-//                usr.delete();
-//                new AlertDialog.Builder(this).setTitle("Aviso!!").setMessage("Seus Registros Foram Excluidos!").show();
-//                Intent intent = new Intent(this, FrmLogin.class);
-//                startActivity(intent);
-//            default:
-//                return super.onContextItemSelected(item);
-//        }
-//    }
     private void createListView() {
         AtividadeDAO atividadeDAO = new AtividadeDAO(this);
-        List<Atividade> atividades = atividadeDAO.listAll();
 
         itens = new ArrayList<ItemOpcao>();
         if (atividades.size() > 0) {
             for (int i = 0; i < atividades.size(); i++) {
                 String atv = String.valueOf(atividades.get(i).getId());
+                //atv = atv + atividades.get(i).getDia();
                 ItemOpcao item1 = new ItemOpcao(atv);
                 itens.add(item1);
             }
         } else {
             new AlertDialog.Builder(this).setTitle("Aviso!!").setMessage("Você não possui atividades em seu historico!").show();
-            UsuarioDAO usuarioDAO = new UsuarioDAO(this);
-            Usuario usuario = new Usuario();
-            usuario = usuarioDAO.retrive();
-            servico.historicoAtividade(usuario);
+//            UsuarioDAO usuarioDAO = new UsuarioDAO(this);
+//            Usuario usuario = new Usuario();
+//            usuario = usuarioDAO.retrive();
+//            servico.historicoAtividade(usuario);
             //            Intent intent = new Intent(this, TelaOpcoes.class);
             //            startActivity(intent);
         }
-
-
-        //Criamos nossa lista que preenchera o ListView
-//        itens = new ArrayList<ItemOpcao>();
-//        ItemOpcao item1 = new ItemOpcao("Nova Atividade");
-//        ItemOpcao item2 = new ItemOpcao("Historico");
-//
-//        itens.add(item1);
-//        itens.add(item2);
 
         //Cria o adapter
         lista = new Lista_opcao(this, itens);

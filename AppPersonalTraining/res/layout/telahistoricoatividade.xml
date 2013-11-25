@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout
+	android:id="@+id/widget0"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:background="#fff5f5f5"
+	xmlns:android="http://schemas.android.com/apk/res/android">
+<ImageButton
+	android:id="@+id/btpause"
+	android:layout_width="84dp"
+	android:layout_height="63dp"
+	android:background="#fff5f5f5"
+	android:visibility="invisible"
+	android:src="@drawable/pause"
+	android:layout_x="39dp"
+	android:layout_y="260dp" />
+<TextView
+	android:id="@+id/txtdistanciafinal"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:text="0.0 m"
+	android:textSize="20sp"
+	android:textColor="#ff444444"
+	android:layout_x="162dp"
+	android:layout_y="74dp" />
+<TextView
+	android:id="@+id/lbldistancia"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:text="Distancia:"
+	android:textSize="20sp"
+	android:textStyle="italic"
+	android:textColor="#ff444444"
+	android:layout_x="46dp"
+	android:layout_y="72dp" />
+<TextView
+	android:id="@+id/lblcronometro"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:text="Tempo:"
+	android:textSize="20sp"
+	android:textStyle="italic"
+	android:textColor="#ff444444"
+	android:layout_x="67dp"
+	android:layout_y="123dp" />
+<TextView
+	android:id="@+id/lblvelocidade"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:text="Velocidade:"
+	android:textSize="20sp"
+	android:textStyle="italic"
+	android:textColor="#ff444444"
+	android:layout_x="34dp"
+	android:layout_y="170dp" />
+<TextView
+	android:id="@+id/txtvelocidadefinal"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:text="0 m/s"
+	android:textSize="20sp"
+	android:textColor="#ff444444"
+	android:layout_x="163dp"
+	android:layout_y="172dp" />
+<TextView
+	android:id="@+id/lblatividade"
+	android:layout_width="wrap_content"
+	android:layout_height="25dp"
+	android:text="Atividade"
+	android:textSize="22sp"
+	android:textColor="#ff444444"
+	android:layout_x="104dp"
+	android:layout_y="21dp" />
+<TextView
+	android:id="@+id/txttempofinal"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:text="00:00"
+	android:textSize="20sp"
+	android:textColor="#ff444444"
+	android:layout_x="160dp"
+	android:layout_y="124dp" />
+<TextView
+	android:id="@+id/widget43"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:text="Data:"
+	android:textSize="20sp"
+	android:textStyle="italic"
+	android:textColor="#ff444444"
+	android:layout_x="83dp"
+	android:layout_y="220dp" />
+<TextView
+	android:id="@+id/txtdatafinal"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:text="dd/mm/aaaa"
+	android:textSize="20sp"
+	android:textColor="#ff444444"
+	android:layout_x="155dp"
+	android:layout_y="222dp" />
+<Button
+	android:id="@+id/btmapa"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:text="Visulizar Mapa"
+        android:onClick="onClickBtMapa"
+	android:textSize="16sp"
+	android:layout_x="98dp"
+	android:layout_y="280dp" />
+</AbsoluteLayout>
